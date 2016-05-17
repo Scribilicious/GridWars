@@ -19,17 +19,17 @@ Seize the glory and rise to the highest kill value.
 
 # System capabilities
 POST /vikings
-body: {name:'someName'}
-response: {name:'someName',level:1, health:2, kills:0, position:{x:0,y:0}, id:'someId'}
+- body: {name:'someName'}
+- response: {name:'someName',level:1, health:2, kills:0, position:{x:0,y:0}, id:'someId'}
 
 PUT /vikings
-body: {id:'someId', action:{order:'move', position:{x:0,:y:0}}}
-response: {name:'someName',level:1, health:2, kills:0, position:{x:0,y:0}, id:'someId', action:{order:'move', position:{x:0,:y:0}}}
+- body: {id:'someId', action:{order:'move', position:{x:0,:y:0}}}
+- response: {name:'someName',level:1, health:2, kills:0, position:{x:0,y:0}, id:'someId', action:{order:'move', position:{x:0,:y:0}}}
 
 Actions:
-1. Heal - {order:'heal'}
-2. Move - {order:'move', position:{x:0,:y:0}}
-3. Attack - {order:'attack', position:{x:0,:y:0}}
+- Heal - {order:'heal'}
+- Move - {order:'move', position:{x:0,:y:0}}
+- Attack - {order:'attack', position:{x:0,:y:0}}
 
 Action position represents coordinate relative to your position.
 -  position:{x:0,:y:0} - you
@@ -40,3 +40,16 @@ GET /vikings
 Gives list of all Vikings without respective ids - effectively the game map.
 
 Socket io events are emitted for new Vikings and for game ticks.
+
+# Server
+Server IP: 52.58.199.76 PORT 8080
+
+GET http://52.58.199.76:8080/api/vikings
+
+POST http://52.58.199.76:8080/api/vikings
+
+PUT http://52.58.199.76:8080/api/vikings
+
+# Tips and tricks
+1. Use postman to test out the server before making the AI.
+2. Use restler npm package for easy http communication.
