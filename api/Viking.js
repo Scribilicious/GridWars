@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
 
-let shortid = require("shortid");
+let shortid = require('shortid');
 
 var mapSizeX = 30;
 var mapSizeY = 30;
 
 function Viking() {
     this.id = shortid.generate();
-    this.name = "Bob";
+    this.name = 'Bob';
     this.level = 1;
     this.health = 2;
     this.kills = 0;
-    this.action = { order: "stop" };
+    this.action = { order: 'stop' };
     this.position = { x: 0, y: 0 };
 }
 
@@ -46,7 +46,7 @@ Viking.prototype.getActionPosition = function() {
         position.y =
             position.y < 0 ? 0 : position.y > mapSizeY ? mapSizeY : position.y;
     } else {
-        throw new Error(this.id + "position of order is invalid");
+        throw new Error(this.id + 'position of order is invalid');
     }
 
     return position;

@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
-const express = require("express");
+const express = require('express');
 const app = express();
 const router = express.Router();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
-const Viking = require("./Viking.js");
+const Viking = require('./Viking.js');
 const vikingsList = [];
 
 const mapSizeX = 30;
@@ -61,7 +61,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-router.post("/", function(req, res) {
+router.post('/', function(req, res) {
     let viking = new Viking();
 
     let maxTries = 10;
@@ -79,7 +79,7 @@ router.post("/", function(req, res) {
 
     if (maxTries === 0) {
         res.json({
-            error: "could not find empty spot for you viking, please try again",
+            error: 'could not find empty spot for you viking, please try again',
         });
         return;
     }
@@ -93,14 +93,14 @@ router.post("/", function(req, res) {
     let sendWithId = true;
     res.json(viking.parse(sendWithId));
 
-    io.sockets.emit("vikingsUpdate", { vikings: parseVikings() });
+    io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
 });
 
-router.put("/", function(req, res) {
+router.put('/', function(req, res) {
     let viking = findVikingById(req.body.id);
 
     if (!viking) {
-        res.status(400).json({ error: "deadViking" });
+        res.status(400).json({ error: 'deadViking' });
         return;
     }
 
@@ -109,8 +109,8 @@ router.put("/", function(req, res) {
     res.json(viking.parse());
 });
 
-router.get("/", function(req, res) {
-    console.log("getting vikings");
+router.get('/', function(req, res) {
+    console.log('getting vikings');
 
     res.json({ vikings: parseVikings() });
 });
@@ -140,7 +140,7 @@ let handleVikingMove = function(viking) {
         let otherViking = findVikingByPosition(movePosition);
 
         if (otherViking) {
-            throw new Error(viking.id + " something is in my way");
+            throw new Error(viking.id + ' something is in my way');
         }
 
         viking.position = movePosition;
@@ -171,7 +171,7 @@ let disposeBodies = function() {
 
 let resetVikingsOrders = function() {
     vikingsList.forEach(function(viking) {
-        viking.action.order = "stop";
+        viking.action.order = 'stop';
     });
 };
 
@@ -184,9 +184,9 @@ let levelUpVikings = function() {
 let gameRound = 1;
 
 let gameUpdate = function() {
-    console.log("Game round " + gameRound++);
+    console.log('Game round ' + gameRound++);
 
-    let vikings = findVikingsByOrder("attack");
+    let vikings = findVikingsByOrder('attack');
 
     vikings.forEach(function(viking) {
         handleVikingAttack(viking);
@@ -196,13 +196,13 @@ let gameUpdate = function() {
 
     levelUpVikings();
 
-    vikings = findVikingsByOrder("move");
+    vikings = findVikingsByOrder('move');
 
     vikings.forEach(function(viking) {
         handleVikingMove(viking);
     });
 
-    vikings = findVikingsByOrder("heal");
+    vikings = findVikingsByOrder('heal');
 
     vikings.forEach(function(viking) {
         handleVikingHeal(viking);
@@ -210,7 +210,7 @@ let gameUpdate = function() {
 
     resetVikingsOrders();
 
-    io.sockets.emit("vikingsUpdate", { vikings: parseVikings() });
+    io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
 };
 
 let gameInterval = setInterval(gameUpdate, 10000);

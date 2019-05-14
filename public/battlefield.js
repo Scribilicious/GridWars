@@ -1,6 +1,6 @@
-var cBoard = document.getElementById("board");
-var canvas = document.createElement("canvas");
-var ctx = canvas.getContext("2d");
+var cBoard = document.getElementById('board');
+var canvas = document.createElement('canvas');
+var ctx = canvas.getContext('2d');
 
 var units = 30;
 var unitSize = 20; // px
@@ -9,14 +9,14 @@ var size = units * unitSize;
 var timePeriod = 1000;
 
 var vikingImg = new Image();
-vikingImg.src = "viking.png";
+vikingImg.src = 'viking.png';
 
 canvas.width = size;
 canvas.height = size;
 cBoard.appendChild(canvas);
 
 function getVikings() {
-    return fetch("http://localhost:3000/api/vikings");
+    return fetch('http://localhost:3000/api/vikings');
 }
 
 function renderVikings(vikings) {
@@ -25,7 +25,7 @@ function renderVikings(vikings) {
         var y = viking.position.y;
 
         var fontSize = 15;
-        ctx.font = fontSize + "px Arial";
+        ctx.font = fontSize + 'px Arial';
 
         ctx.fillText(viking.name, x * unitSize - 20, y * unitSize - 5);
         ctx.fillText(
@@ -49,17 +49,17 @@ function displayTheBest(vikings) {
         return candidate.level > current.level ? candidate : current;
     }, 0);
 
-    var div = document.getElementById("best-viking");
-    div.innerHTML = "";
+    var div = document.getElementById('best-viking');
+    div.innerHTML = '';
     var text = document.createTextNode(
-        "Best Viking: " + (bestViking.name || "n/a")
+        'Best Viking: ' + (bestViking.name || 'n/a')
     );
     div.appendChild(text);
 
-    var div = document.getElementById("best-level");
-    div.innerHTML = "";
+    var div = document.getElementById('best-level');
+    div.innerHTML = '';
     var text = document.createTextNode(
-        "With level: " + (bestViking.level || "n/a")
+        'With level: ' + (bestViking.level || 'n/a')
     );
     div.appendChild(text);
 }
