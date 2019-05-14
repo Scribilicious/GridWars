@@ -2,6 +2,7 @@
     "name": "valhalla",
     "version": "1.0.0",
     "description": "This is Valhalla",
+    "license": "MIT",
     "dependencies": {
         "body-parser": "1.15.1",
         "cors": "2.7.1",
