@@ -67,19 +67,19 @@ router.post("/", function(req, res) {
     let maxTries = 10;
     let position = {
         x: getRandomInt(0, mapSizeX),
-        y: getRandomInt(0, mapSizeY)
+        y: getRandomInt(0, mapSizeY),
     };
 
     while (findVikingByPosition(position) && maxTries--) {
         position = {
             x: getRandomInt(0, mapSizeX),
-            y: getRandomInt(0, mapSizeY)
+            y: getRandomInt(0, mapSizeY),
         };
     }
 
     if (maxTries === 0) {
         res.json({
-            error: "could not find empty spot for you viking, please try again"
+            error: "could not find empty spot for you viking, please try again",
         });
         return;
     }

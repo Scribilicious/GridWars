@@ -22,7 +22,7 @@ Viking.prototype.parse = function(withId) {
         health: this.health,
         kills: this.kills,
         action: this.action,
-        position: this.position
+        position: this.position,
     };
 
     if (withId) {
