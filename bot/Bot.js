@@ -21,10 +21,12 @@ Bot.prototype.connect = function() {
 };
 Bot.prototype.order = function(order = 'heal', target) {
     console.log('current Order:', order);
-    const action = { order, position: { x: -1, y: -1 } };
+    const action = { order: 'attack', position: { x: -1, y: -1 } };
 
     Api.call('PUT', { id: this.id, action })
-        .then(data => {})
+        .then(data => {
+            console.log('Respone', data);
+        })
         .catch(error => console.error(error));
 };
 Bot.prototype.heal = function(target) {
