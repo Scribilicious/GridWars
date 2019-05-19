@@ -14,7 +14,7 @@ const Api = {
         if (method === 'POST' || method === 'PUT') {
             request = { ...request, body: JSON.stringify(data) };
         }
-        console.log(request);
+
         return fetch(URL, request).then(response => response.json());
     },
 };

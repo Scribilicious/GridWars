@@ -101,7 +101,6 @@ router.post('/', function(req, res) {
 });
 
 router.put('/', function(req, res) {
-    console.log('before:', vikingsList);
     let viking = findVikingById(req.body.id);
 
     if (!viking) {
@@ -112,7 +111,6 @@ router.put('/', function(req, res) {
     viking.action = req.body.action;
 
     res.json(viking.parse());
-    console.log('after:', vikingsList);
 });
 
 router.get('/', function(req, res) {
@@ -219,6 +217,6 @@ let gameUpdate = function() {
     io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
 };
 
-let gameInterval = setInterval(gameUpdate, 500);
+let gameInterval = setInterval(gameUpdate, 100);
 
 module.exports = router;
