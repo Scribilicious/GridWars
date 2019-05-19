@@ -6,11 +6,15 @@ const router = express.Router();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const Viking = require('./Viking.js');
+const Viking = require('./Viking');
+const Action = require('./Action');
+const Config = require('./Config');
+
+const mapSizeX = Config.MAP_SIZE_X;
+const mapSizeY = Config.MAP_SIZE_Y;
+
 const vikingsList = [];
 
-const mapSizeX = 30;
-const mapSizeY = 30;
 let findVikingById = function(id) {
     let viking = null;
 
@@ -97,6 +101,7 @@ router.post('/', function(req, res) {
 });
 
 router.put('/', function(req, res) {
+    console.log('before:', vikingsList);
     let viking = findVikingById(req.body.id);
 
     if (!viking) {
@@ -107,6 +112,7 @@ router.put('/', function(req, res) {
     viking.action = req.body.action;
 
     res.json(viking.parse());
+    console.log('after:', vikingsList);
 });
 
 router.get('/', function(req, res) {
@@ -171,7 +177,7 @@ let disposeBodies = function() {
 
 let resetVikingsOrders = function() {
     vikingsList.forEach(function(viking) {
-        viking.action.order = 'stop';
+        viking.action.order = Action.ORDER_STOP;
     });
 };
 
@@ -186,7 +192,7 @@ let gameRound = 1;
 let gameUpdate = function() {
     console.log('Game round ' + gameRound++);
 
-    let vikings = findVikingsByOrder('attack');
+    let vikings = findVikingsByOrder(Action.ORDER_ATTACK);
 
     vikings.forEach(function(viking) {
         handleVikingAttack(viking);
@@ -196,13 +202,13 @@ let gameUpdate = function() {
 
     levelUpVikings();
 
-    vikings = findVikingsByOrder('move');
+    vikings = findVikingsByOrder(Action.ORDER_MOVE);
 
     vikings.forEach(function(viking) {
         handleVikingMove(viking);
     });
 
-    vikings = findVikingsByOrder('heal');
+    vikings = findVikingsByOrder(Action.ORDER_HEAL);
 
     vikings.forEach(function(viking) {
         handleVikingHeal(viking);
@@ -213,6 +219,6 @@ let gameUpdate = function() {
     io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
 };
 
-let gameInterval = setInterval(gameUpdate, 10000);
+let gameInterval = setInterval(gameUpdate, 500);
 
 module.exports = router;

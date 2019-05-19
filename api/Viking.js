@@ -1,9 +1,11 @@
 'use strict';
 
-let shortid = require('shortid');
+const shortid = require('shortid');
+const Action = require('./Action');
+const Config = require('./Config');
 
-var mapSizeX = 30;
-var mapSizeY = 30;
+const mapSizeX = Config.MAP_SIZE_X;
+const mapSizeY = Config.MAP_SIZE_Y;
 
 function Viking() {
     this.id = shortid.generate();
@@ -11,7 +13,7 @@ function Viking() {
     this.level = 1;
     this.health = 2;
     this.kills = 0;
-    this.action = { order: 'stop' };
+    this.action = { order: Action.ORDER_STOP };
     this.position = { x: 0, y: 0 };
 }
 
