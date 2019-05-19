@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Warriors of Valhalla</title>
+
+        <style>
+            body {
+                font-size: 16px;
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background: #f5f5f5;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Valhalla</h1>
+        <div id="game"></div>
+        <div id="board"><!-- canvas by js --></div>
+        <div
+            id="score"
+            style="display: flex; width: 600px; justify-content: center;"
+        >
+            <div
+                style="flex: 1; text-align: center; font-weight: bold; color: purple;"
+                id="best-viking"
+            ></div>
+            <div
+                style="flex: 1; text-align: center; font-weight: bold; color: orangered;"
+                id="best-level"
+            ></div>
+        </div>
+
+        <script src="battlefield.js"></script>
+    </body>
+</html>

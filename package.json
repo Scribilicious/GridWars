@@ -1,26 +1,73 @@
 {
-  "name": "valhalla",
-  "version": "1.0.0",
-  "description": "Program the mighty viking warriors of Valhalla",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Creosteanu/valhalla.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Creosteanu/valhalla/issues"
-  },
-  "homepage": "https://github.com/Creosteanu/valhalla#readme",
-  "dependencies": {
-    "body-parser": "^1.15.1",
-    "cors": "^2.7.1",
-    "express": "^4.13.4",
-    "shortid": "^2.2.6",
-    "socket.io": "^1.4.6"
-  }
+    "name": "valhalla",
+    "version": "1.0.0",
+    "description": "This is Valhalla",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "node-fetch": "^2.6.0",
+        "shortid": "^2.2.14",
+        "socket.io": "^2.2.0"
+    },
+    "devDependencies": {
+        "babel-eslint": "^10.0.1",
+        "eslint": "^5.16.0",
+        "eslint-config-airbnb": "^17.1.0",
+        "eslint-config-prettier": "^4.2.0",
+        "eslint-plugin-import": "^2.17.2",
+        "eslint-plugin-jsx-a11y": "^6.2.1",
+        "eslint-plugin-prettier": "^3.1.0",
+        "eslint-plugin-react": "^7.13.0",
+        "prettier": "^1.17.1"
+    },
+    "prettier": {
+        "printWidth": 80,
+        "tabWidth": 4,
+        "singleQuote": true,
+        "trailingComma": "es5"
+    },
+    "eslintConfig": {
+        "extends": [
+            "airbnb",
+            "plugin:prettier/recommended",
+            "prettier/react"
+        ],
+        "env": {
+            "browser": true,
+            "commonjs": true,
+            "es6": true,
+            "jest": true,
+            "node": true
+        },
+        "rules": {
+            "jsx-a11y/href-no-hash": [
+                "off"
+            ],
+            "react/jsx-filename-extension": [
+                "warn",
+                {
+                    "extensions": [
+                        ".js",
+                        ".jsx"
+                    ]
+                }
+            ],
+            "max-len": [
+                "warn",
+                {
+                    "code": 80,
+                    "tabWidth": 4,
+                    "comments": 80,
+                    "ignoreComments": false,
+                    "ignoreTrailingComments": true,
+                    "ignoreUrls": true,
+                    "ignoreStrings": true,
+                    "ignoreTemplateLiterals": true,
+                    "ignoreRegExpLiterals": true
+                }
+            ]
+        }
+    }
 }
