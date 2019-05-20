@@ -19,11 +19,10 @@ Bot.prototype.connect = function() {
             this.level = data.level;
             this.position = data.position;
         })
-        .then(() => {
-            this.strategy();
-        })
+        .then(() => this.strategy())
         .catch(error => console.error(error));
 };
+
 Bot.prototype.order = function(order = 'heal', target = { x: 0, y: 0 }) {
     Api.call('PUT', { id: this.id, action: { order, position: target } })
         .then(data => {
@@ -33,23 +32,26 @@ Bot.prototype.order = function(order = 'heal', target = { x: 0, y: 0 }) {
 
             console.log(data);
         })
-        .then(() => {
-            this.strategy();
-        })
+        .then(() => this.strategy())
         .catch(error => console.error(error));
 };
+
 Bot.prototype.stop = function() {
     this.order('stop');
 };
+
 Bot.prototype.heal = function() {
     this.order('heal');
 };
+
 Bot.prototype.move = function(step) {
     this.order('move', step);
 };
+
 Bot.prototype.attack = function(step) {
     this.order('attack', step);
 };
+
 Bot.prototype.moveInRange = function(target) {
     const dx = target.position.x - this.position.x;
     const dy = target.position.y - this.position.y;
@@ -60,6 +62,7 @@ Bot.prototype.moveInRange = function(target) {
         y: dy / Math.abs(dy) || 0,
     };
 };
+
 Bot.prototype.log = function() {
     console.log(this);
 };

@@ -1,4 +1,4 @@
-# Valhalla
+# Valkyre
 
 Program the mighty Viking warriors of Valhalla.
 
@@ -12,12 +12,10 @@ Game rounds occur every 10s at which time all warriors execute their stored acti
 
 Seize the glory and rise to the highest kill value.
 
-# Setup
+# Credits
 
-1. Install git.
-2. Clone project.
-3. Install node.
-4. node server.js.
+This is a fork of the original Project by Radu Creosteanu 
+https://github.com/Creosteanu/valhalla
 
 # System capabilities
 
@@ -34,10 +32,12 @@ PUT /vikings
 Actions:
 
 -   Heal - {order:'heal'}
+-   Stop - {order:'stop'}
 -   Move - {order:'move', position:{x:0,:y:0}}
 -   Attack - {order:'attack', position:{x:0,:y:0}}
 
-Action position represents coordinate relative to your position.
+An actions position represents the target coordinates relative to your position.
+Values less than -1 and above 1 are disregarded.
 
 -   position:{x:0,:y:0} - you
 -   position:{x:1,:y:0} - right
@@ -61,4 +61,4 @@ PUT http://52.58.199.76:8080/api/vikings
 # Tips and tricks
 
 1. Use postman to test out the server before making the AI.
-2. Use restler npm package for easy http communication.
+2. Dont spam requests
