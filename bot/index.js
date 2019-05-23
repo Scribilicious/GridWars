@@ -1,7 +1,8 @@
 const Api = require('./Api');
 const Bot = require('./Bot');
+const Config = require('../config');
 
-const SPEED = 10 * 1000;
+const SPEED = Config.SPEED;
 
 let botNumber = 0;
 let players = [];
@@ -19,7 +20,7 @@ function updatePlayers() {
 updatePlayers();
 
 /*
- * hunter is a Strategy.
+ * hunter is a Strategy configurable for each Bot.
  * As such it will be re-evaluated on each Server response.
  *
  * See Bot.js.
@@ -41,7 +42,7 @@ function hunter() {
 
     // handle invalid target, might be caused by async/lag
     if (nextStep.x === 0 && nextStep.y === 0) {
-        return bot.health < 2 ? bot.heal() : bot.stop();
+        return bot.stop();
     }
 
     // distance to target is <= 1, so we are in range to attack
@@ -50,6 +51,9 @@ function hunter() {
     }
 
     // otherwise move towards target
+    if (bot.health < 2) {
+        return bot.heal();
+    }
     return bot.move(nextStep);
 }
 
