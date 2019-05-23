@@ -1,6 +1,9 @@
 const Api = require('./Api');
 const Bot = require('./Bot');
 
+const SPEED = 10 * 1000;
+
+let botNumber = 0;
 let players = [];
 
 function updatePlayers() {
@@ -11,42 +14,50 @@ function updatePlayers() {
             })
             .then(() => updatePlayers())
             .catch(error => console.error(error));
-    }, 1000);
+    }, SPEED / 2);
 }
 updatePlayers();
 
-function chicken() {
-    console.log('chicken is sitting around.');
-}
-
+/*
+ * hunter is a Strategy.
+ * As such it will be re-evaluated by each Server response.
+ *
+ * See Bot.js.
+ */
 function hunter() {
-    const wolf = this;
+    const bot = this;
+
+    // target next player in line (players is sorted by entry)
     const victim =
-        players[0] && players[0].name !== wolf.name ? players[0] : players[1];
+        players[0] && players[0].name !== bot.name ? players[0] : players[1];
 
+    // while no other Player on the Board, heal and keep the cycle alive
     if (!victim) {
-        return wolf.stop();
+        return bot.heal();
     }
 
-    const nextStep = wolf.moveInRange(victim);
+    // get information about the next target and range
+    const nextStep = bot.moveInRange(victim);
 
+    // handle invalid target, might be caused by async/lag
     if (nextStep.x === 0 && nextStep.y === 0) {
-        return wolf.stop();
+        return bot.health < 2 ? bot.heal() : bot.stop();
     }
 
+    // distance to target is <= 1, so we are in range to attack
     if (nextStep.inRange) {
-        return wolf.attack(nextStep);
+        return bot.attack(nextStep);
     }
 
-    return wolf.move(nextStep);
+    // otherwise move towards target
+    return bot.move(nextStep);
 }
 
-let chickenNumber = 0;
-setInterval(function() {
-    chickenNumber++;
+function populate() {
+    botNumber++;
 
-    const Chicken = new Bot('Chicken' + chickenNumber, chicken);
-    Chicken.connect();
-}, 10 * 1000);
-const Wolf = new Bot('Woelfchen', hunter);
-Wolf.connect();
+    const Wolf = new Bot('Woelfchen' + botNumber, hunter);
+    Wolf.connect();
+}
+
+setInterval(populate, SPEED);
