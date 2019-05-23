@@ -4,12 +4,14 @@ const Bot = require('./Bot');
 let players = [];
 
 function updatePlayers() {
-    Api.call()
-        .then(data => {
-            players = data.vikings;
-        })
-        .then(() => updatePlayers())
-        .catch(error => console.error(error));
+    setTimeout(function() {
+        Api.call()
+            .then(data => {
+                players = data.vikings;
+            })
+            .then(() => updatePlayers())
+            .catch(error => console.error(error));
+    }, 1000);
 }
 updatePlayers();
 
@@ -39,8 +41,12 @@ function hunter() {
     return wolf.move(nextStep);
 }
 
-const Chicken = new Bot('Chicken', chicken);
-Chicken.connect();
+let chickenNumber = 0;
+setInterval(function() {
+    chickenNumber++;
 
+    const Chicken = new Bot('Chicken' + chickenNumber, chicken);
+    Chicken.connect();
+}, 10 * 1000);
 const Wolf = new Bot('Woelfchen', hunter);
 Wolf.connect();

@@ -12,6 +12,7 @@ const Config = require('./Config');
 
 const mapSizeX = Config.MAP_SIZE_X;
 const mapSizeY = Config.MAP_SIZE_Y;
+const speed = Config.SPEED;
 
 const vikingsList = [];
 
@@ -217,6 +218,6 @@ let gameUpdate = function() {
     io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
 };
 
-let gameInterval = setInterval(gameUpdate, 100);
+let gameInterval = setInterval(gameUpdate, speed);
 
 module.exports = router;

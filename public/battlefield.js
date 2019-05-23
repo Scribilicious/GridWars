@@ -6,7 +6,7 @@ var units = 30;
 var unitSize = 20; // px
 var size = units * unitSize;
 
-var timePeriod = 100;
+var timePeriod = 2000;
 
 var vikingImg = new Image();
 vikingImg.src = 'viking.png';
@@ -68,6 +68,7 @@ function main() {
     getVikings().then(function(response) {
         return response.json().then(function(json) {
             var vikings = json.vikings;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             renderVikings(vikings);
             displayTheBest(vikings);
         });

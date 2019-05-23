@@ -44,12 +44,12 @@ Bot.prototype.heal = function() {
     this.order('heal');
 };
 
-Bot.prototype.move = function(step) {
-    this.order('move', step);
+Bot.prototype.move = function(target) {
+    this.order('move', target);
 };
 
-Bot.prototype.attack = function(step) {
-    this.order('attack', step);
+Bot.prototype.attack = function(target) {
+    this.order('attack', target);
 };
 
 Bot.prototype.moveInRange = function(target) {
