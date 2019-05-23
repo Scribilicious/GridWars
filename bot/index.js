@@ -31,7 +31,7 @@ function hunter() {
     const victim =
         players[0] && players[0].name !== bot.name ? players[0] : players[1];
 
-    // while no other Player on the Board, heal and keep the cycle alive
+    // while no other Player on the Board, heal and keep the re-evaluation cycle alive
     if (!victim) {
         return bot.heal();
     }
