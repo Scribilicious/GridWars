@@ -20,7 +20,7 @@ updatePlayers();
 
 /*
  * hunter is a Strategy.
- * As such it will be re-evaluated by each Server response.
+ * As such it will be re-evaluated on each Server response.
  *
  * See Bot.js.
  */
