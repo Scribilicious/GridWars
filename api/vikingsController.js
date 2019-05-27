@@ -1,6 +1,5 @@
-'use strict';
-
 const express = require('express');
+
 const app = express();
 const router = express.Router();
 const http = require('http').Server(app);
@@ -16,58 +15,58 @@ const speed = Config.SPEED;
 
 const vikingsList = [];
 
-let findVikingById = function(id) {
+function findVikingById(id) {
     let viking = null;
 
-    vikingsList.forEach(function(v) {
+    vikingsList.forEach(v => {
         if (v.id === id) {
             viking = v;
         }
     });
 
     return viking;
-};
+}
 
-let findVikingByPosition = function(position) {
+function findVikingByPosition(position) {
     let viking = null;
 
-    vikingsList.forEach(function(v) {
+    vikingsList.forEach(v => {
         if (v.position.x === position.x && v.position.y === position.y) {
             viking = v;
         }
     });
 
     return viking;
-};
+}
 
-let findVikingsByOrder = function(order) {
-    let vikings = [];
+function findVikingsByOrder(order) {
+    const vikings = [];
 
-    vikingsList.forEach(function(v) {
+    vikingsList.forEach(v => {
         if (v.action.order === order) {
             vikings.push(v);
         }
     });
 
     return vikings;
-};
+}
 
-let parseVikings = function() {
-    let parsedVikings = [];
+function parseVikings() {
+    const parsedVikings = [];
 
-    vikingsList.forEach(function(v) {
+    vikingsList.forEach(v => {
         parsedVikings.push(v.parse());
     });
 
     return parsedVikings;
-};
+}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-router.post('/', function(req, res) {
-    let viking = new Viking();
+router.post('/', (req, res) => {
+    const viking = new Viking();
 
     let maxTries = 10;
     let position = {
@@ -95,14 +94,14 @@ router.post('/', function(req, res) {
 
     vikingsList.push(viking);
 
-    let sendWithId = true;
+    const sendWithId = true;
     res.json(viking.parse(sendWithId));
 
     io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
 });
 
-router.put('/', function(req, res) {
-    let viking = findVikingById(req.body.id);
+router.put('/', (req, res) => {
+    const viking = findVikingById(req.body.id);
 
     if (!viking) {
         res.status(400).json({ error: 'deadViking' });
@@ -114,17 +113,17 @@ router.put('/', function(req, res) {
     res.json(viking.parse());
 });
 
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
     console.log('getting vikings');
 
     res.json({ vikings: parseVikings() });
 });
 
-let handleVikingAttack = function(viking) {
+function handleVikingAttack(viking) {
     try {
-        let attackPosition = viking.getActionPosition();
+        const attackPosition = viking.getActionPosition();
 
-        let otherViking = findVikingByPosition(attackPosition);
+        const otherViking = findVikingByPosition(attackPosition);
 
         if (otherViking) {
             otherViking.health -= viking.level;
@@ -136,64 +135,65 @@ let handleVikingAttack = function(viking) {
     } catch (e) {
         console.log(e);
     }
-};
+}
 
-let handleVikingMove = function(viking) {
+function handleVikingMove(viking) {
     try {
-        let movePosition = viking.getActionPosition();
+        const movePosition = viking.getActionPosition();
 
-        let otherViking = findVikingByPosition(movePosition);
+        const otherViking = findVikingByPosition(movePosition);
 
         if (otherViking) {
-            throw new Error(viking.id + ' something is in my way');
+            throw new Error(`${viking.id} something is in my way`);
         }
 
         viking.position = movePosition;
     } catch (e) {
         console.log(e);
     }
-};
+}
 
-let handleVikingHeal = function(viking) {
+function handleVikingHeal(viking) {
     try {
         viking.increaseHitPoints(viking.level);
     } catch (e) {
         console.log(e);
     }
-};
+}
 
-let disposeBodies = function() {
+function disposeBodies() {
     let i = vikingsList.length;
 
     while (i--) {
-        let viking = vikingsList[i];
+        const viking = vikingsList[i];
 
         if (viking.isDead()) {
             vikingsList.splice(i, 1);
         }
     }
-};
+}
 
-let resetVikingsOrders = function() {
-    vikingsList.forEach(function(viking) {
+function resetVikingsOrders() {
+    vikingsList.forEach(viking => {
         viking.action.order = Action.ORDER_STOP;
     });
-};
+}
 
-let levelUpVikings = function() {
-    vikingsList.forEach(function(viking) {
+function levelUpVikings() {
+    vikingsList.forEach(viking => {
         viking.checkForLevelUp();
     });
-};
+}
 
 let gameRound = 1;
 
-let gameUpdate = function() {
-    console.log('Game round ' + gameRound++);
+function gameUpdate() {
+    gameRound += 1;
+    console.log(`Game round ${gameRound}`);
 
     let vikings = findVikingsByOrder(Action.ORDER_ATTACK);
 
-    vikings.forEach(function(viking) {
+    vikings.forEach(viking => {
         handleVikingAttack(viking);
     });
 
@@ -203,21 +203,21 @@ let gameUpdate = function() {
 
     vikings = findVikingsByOrder(Action.ORDER_MOVE);
 
-    vikings.forEach(function(viking) {
+    vikings.forEach(viking => {
         handleVikingMove(viking);
     });
 
     vikings = findVikingsByOrder(Action.ORDER_HEAL);
 
-    vikings.forEach(function(viking) {
+    vikings.forEach(viking => {
         handleVikingHeal(viking);
     });
 
     resetVikingsOrders();
 
     io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
-};
+}
 
-let gameInterval = setInterval(gameUpdate, speed);
+setInterval(gameUpdate, speed);
 
 module.exports = router;

@@ -2,13 +2,13 @@ const Api = require('./Api');
 const Bot = require('./Bot');
 const Config = require('../config');
 
-const SPEED = Config.SPEED;
+const { SPEED, MAP_SIZE_X, MAP_SIZE_Y } = Config;
 
 let botNumber = 0;
 let players = [];
 
 function updatePlayers() {
-    setTimeout(function() {
+    setTimeout(() => {
         Api.call()
             .then(data => {
                 players = data.vikings;
@@ -29,8 +29,7 @@ function hunter() {
     const bot = this;
 
     // target next player in line (players is sorted by entry)
-    const victim =
-        players[0] && players[0].name !== bot.name ? players[0] : players[1];
+    const victim = players[0] && players[0].name !== bot.name ? players[0] : players[1];
 
     // while no other Player on the Board, heal and keep the re-evaluation cycle alive
     if (!victim) {
@@ -57,11 +56,36 @@ function hunter() {
     return bot.move(nextStep);
 }
 
-function populate() {
-    botNumber++;
+const victim = { position: { x: 0, y: 0 } };
 
-    const Wolf = new Bot('Woelfchen' + botNumber, hunter);
+function probe() {
+    const bot = this;
+    const nextStep = bot.moveInRange(victim);
+
+    if (bot.position.x === MAP_SIZE_X && bot.position.y === MAP_SIZE_Y) {
+        victim.position.x = 0;
+        victim.position.y = 0;
+    }
+
+    if (bot.position.x === 0) {
+        victim.position.x = MAP_SIZE_X;
+    }
+
+    if (bot.position.y === 0) {
+        victim.position.y = MAP_SIZE_Y;
+    }
+
+    return bot.move(nextStep);
+}
+
+function populate() {
+    botNumber += 1;
+
+    const Wolf = new Bot(`Woelfchen ${botNumber}`, hunter);
     Wolf.connect();
 }
+
+const Probe = new Bot('Probe', probe);
+Probe.connect();
 
 setInterval(populate, SPEED);

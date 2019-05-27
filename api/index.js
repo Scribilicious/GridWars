@@ -1,6 +1,5 @@
-'use strict';
-
 const express = require('express');
+
 const api = express.Router();
 
 api.use('/vikings', require('./vikingsController'));

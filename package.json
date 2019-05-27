@@ -40,7 +40,7 @@
         ]
     },
     "prettier": {
-        "printWidth": 80,
+        "printWidth": 120,
         "tabWidth": 4,
         "singleQuote": true,
         "trailingComma": "es5"
@@ -74,9 +74,9 @@
             "max-len": [
                 "warn",
                 {
-                    "code": 80,
+                    "code": 120,
                     "tabWidth": 4,
-                    "comments": 80,
+                    "comments": 120,
                     "ignoreComments": false,
                     "ignoreTrailingComments": true,
                     "ignoreUrls": true,
