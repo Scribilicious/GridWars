@@ -33,6 +33,12 @@
         "webpack": "^4.30.0",
         "webpack-cli": "^3.3.1"
     },
+    "babel": {
+        "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+        ]
+    },
     "prettier": {
         "printWidth": 80,
         "tabWidth": 4,
