@@ -2,22 +2,22 @@ const Api = require('./Api');
 const Bot = require('./Bot');
 const Config = require('../config');
 
-const SPEED = Config.SPEED;
+const { SPEED } = Config;
 
 let botNumber = 0;
 let players = [];
 
 function updatePlayers() {
-    setTimeout(function() {
+    setTimeout(() => {
         Api.call()
             .then(data => {
                 players = data.vikings;
             })
-            .then(() => updatePlayers())
+
             .catch(error => console.error(error));
     }, SPEED / 2);
 }
-updatePlayers();
+setInterval(updatePlayers, SPEED / 2);
 
 /*
  * hunter is a Strategy configurable for each Bot.
