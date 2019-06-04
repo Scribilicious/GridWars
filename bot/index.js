@@ -1,6 +1,6 @@
 const Api = require('./Api');
 const Bot = require('./Bot');
-const Config = require('../config');
+const Config = require('../api/Config');
 
 const { SPEED } = Config;
 
@@ -58,9 +58,8 @@ function hunter() {
 }
 
 function populate() {
-    botNumber++;
-
-    const Wolf = new Bot('Woelfchen' + botNumber, hunter);
+    botNumber += 1;
+    const Wolf = new Bot(`Woelfchen ${botNumber}`, hunter);
     Wolf.connect();
 }
 

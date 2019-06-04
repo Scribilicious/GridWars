@@ -1,6 +1,6 @@
 const shortid = require('shortid');
 const Action = require('./Action');
-const Config = require('../config');
+const Config = require('./Config');
 
 const mapSizeX = Config.MAP_SIZE_X;
 const mapSizeY = Config.MAP_SIZE_Y;
