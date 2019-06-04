@@ -1,6 +1,6 @@
 const Api = require('./Api');
 const Bot = require('./Bot');
-const Config = require('../api/Config');
+const Config = require('../vikings/Config');
 
 const { SPEED } = Config;
 
@@ -29,8 +29,7 @@ function hunter() {
     const bot = this;
 
     // target next player in line (players is sorted by entry)
-    const victim =
-        players[0] && players[0].name !== bot.name ? players[0] : players[1];
+    const victim = players[0] && players[0].name !== bot.name ? players[0] : players[1];
 
     // while no other Player on the Board, heal and keep the re-evaluation cycle alive
     if (!victim) {

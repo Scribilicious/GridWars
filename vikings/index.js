@@ -117,6 +117,10 @@ class Game {
             viking.checkForLevelUp();
         });
     }
+
+    emit(event) {
+        console.log(`Pfffft. no Events so far - ${event} got ignored`);
+    }
 }
 
 module.exports = Game;

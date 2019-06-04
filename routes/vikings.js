@@ -1,13 +1,10 @@
 const express = require('express');
 
-const app = express();
 const router = express.Router();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
 
-const Game = require('./Game');
-const gameUpdate = require('./ClassicMode');
-const gameCofiguration = require('./Config');
+const Game = require('../vikings');
+const gameUpdate = require('../vikings/ClassicMode');
+const gameCofiguration = require('../vikings/Config');
 
 const Level = new Game(gameCofiguration, gameUpdate);
 
@@ -21,7 +18,6 @@ router.post('/', (req, res) => {
     }
 
     res.json(newPlayer);
-    io.sockets.emit('vikingsUpdate', { vikings: Level.parseVikings() });
 });
 
 router.put('/', (req, res) => {

@@ -75,6 +75,5 @@ function gameUpdate() {
 
     game.resetVikingsOrders();
     game.emit('vikingsUpdate', { vikings: game.parseVikings() });
-    //io.sockets.emit('vikingsUpdate', { vikings: game.parseVikings() });
 }
 module.exports = gameUpdate;

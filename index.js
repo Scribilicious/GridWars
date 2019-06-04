@@ -1,6 +1,5 @@
-'use strict';
-
 const express = require('express');
+
 const app = express();
 const cors = require('cors');
 const http = require('http').Server(app);
@@ -15,7 +14,8 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api', require('./api'));
+app.use('/test', require('./routes/test'));
+app.use('/vikings', require('./routes/vikings'));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 io.on('connection', () => console.log('a user connected'));
