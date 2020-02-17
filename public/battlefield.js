@@ -6,7 +6,7 @@ var units = 30;
 var unitSize = 20; // px
 var size = units * unitSize;
 
-var timePeriod = 2000;
+var timePeriod = 500;
 
 var vikingImg = new Image();
 vikingImg.src = 'viking.png';

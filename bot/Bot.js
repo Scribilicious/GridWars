@@ -1,6 +1,6 @@
 const Api = require('./Api');
 
-function Bot(name, strategy) {
+const Bot = function(name, strategy) {
     this.id = '';
     this.name = name;
 
@@ -9,7 +9,7 @@ function Bot(name, strategy) {
     this.position = { x: 0, y: 0 };
 
     this.strategy = strategy;
-}
+};
 
 Bot.prototype.connect = function() {
     Api.call('POST', { name: this.name })

@@ -16,7 +16,7 @@ const speed = Config.SPEED;
 
 const vikingsList = [];
 
-let findVikingById = function(id) {
+const findVikingById = function(id) {
     let viking = null;
 
     vikingsList.forEach(function(v) {
@@ -28,7 +28,7 @@ let findVikingById = function(id) {
     return viking;
 };
 
-let findVikingByPosition = function(position) {
+const findVikingByPosition = function(position) {
     let viking = null;
 
     vikingsList.forEach(function(v) {
@@ -40,7 +40,7 @@ let findVikingByPosition = function(position) {
     return viking;
 };
 
-let findVikingsByOrder = function(order) {
+const findVikingsByOrder = function(order) {
     let vikings = [];
 
     vikingsList.forEach(function(v) {
@@ -52,7 +52,7 @@ let findVikingsByOrder = function(order) {
     return vikings;
 };
 
-let parseVikings = function() {
+const parseVikings = function() {
     let parsedVikings = [];
 
     vikingsList.forEach(function(v) {
@@ -62,9 +62,9 @@ let parseVikings = function() {
     return parsedVikings;
 };
 
-function getRandomInt(min, max) {
+const getRandomInt = function(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
-}
+};
 
 router.post('/', function(req, res) {
     let viking = new Viking();
@@ -120,7 +120,7 @@ router.get('/', function(req, res) {
     res.json({ vikings: parseVikings() });
 });
 
-let handleVikingAttack = function(viking) {
+const handleVikingAttack = function(viking) {
     try {
         let attackPosition = viking.getActionPosition();
 
@@ -138,7 +138,7 @@ let handleVikingAttack = function(viking) {
     }
 };
 
-let handleVikingMove = function(viking) {
+const handleVikingMove = function(viking) {
     try {
         let movePosition = viking.getActionPosition();
 
@@ -154,7 +154,7 @@ let handleVikingMove = function(viking) {
     }
 };
 
-let handleVikingHeal = function(viking) {
+const handleVikingHeal = function(viking) {
     try {
         viking.increaseHitPoints(viking.level);
     } catch (e) {
@@ -162,7 +162,7 @@ let handleVikingHeal = function(viking) {
     }
 };
 
-let disposeBodies = function() {
+const disposeBodies = function() {
     let i = vikingsList.length;
 
     while (i--) {
@@ -174,13 +174,13 @@ let disposeBodies = function() {
     }
 };
 
-let resetVikingsOrders = function() {
+const resetVikingsOrders = function() {
     vikingsList.forEach(function(viking) {
         viking.action.order = Action.ORDER_STOP;
     });
 };
 
-let levelUpVikings = function() {
+const levelUpVikings = function() {
     vikingsList.forEach(function(viking) {
         viking.checkForLevelUp();
     });
@@ -188,7 +188,7 @@ let levelUpVikings = function() {
 
 let gameRound = 1;
 
-let gameUpdate = function() {
+const gameUpdate = function() {
     console.log('Game round ' + gameRound++);
 
     let vikings = findVikingsByOrder(Action.ORDER_ATTACK);

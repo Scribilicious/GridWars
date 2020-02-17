@@ -4,6 +4,7 @@
     "description": "This is Valhalla",
     "license": "MIT",
     "scripts": {
+        "start": "node index.js",
         "build": "webpack"
     },
     "dependencies": {
