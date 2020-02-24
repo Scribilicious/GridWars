@@ -8,6 +8,8 @@ var size = units * unitSize;
 
 var timePeriod = 500;
 
+var webSocket = new WebSocket('ws://localhost:3001/');
+
 var vikingImg = new Image();
 vikingImg.src = 'viking.png';
 
@@ -64,16 +66,9 @@ function displayTheBest(vikings) {
     div.appendChild(text);
 }
 
-function main() {
-    getVikings().then(function(response) {
-        return response.json().then(function(json) {
-            var vikings = json.vikings;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            renderVikings(vikings);
-            displayTheBest(vikings);
-        });
-    });
+webSocket.onmessage = event => {
+    const { vikings } = JSON.parse(event.data);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    renderVikings(vikings);
+    displayTheBest(vikings);
 }
-
-main();
-window.setInterval(main, timePeriod);

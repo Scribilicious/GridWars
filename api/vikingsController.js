@@ -1,10 +1,9 @@
-'use strict';
-
 const express = require('express');
+
 const app = express();
 const router = express.Router();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const WebSocket = require('ws');
 
 const Viking = require('./Viking');
 const Action = require('./Action');
@@ -15,6 +14,16 @@ const mapSizeY = Config.MAP_SIZE_Y;
 const speed = Config.SPEED;
 
 const vikingsList = [];
+
+const wss = new WebSocket.Server({ port: 3001 });
+
+const boradcastResult = vikings => {
+    wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ vikings }));
+        }
+    });
+};
 
 const findVikingById = function(id) {
     let viking = null;
@@ -41,7 +50,7 @@ const findVikingByPosition = function(position) {
 };
 
 const findVikingsByOrder = function(order) {
-    let vikings = [];
+    const vikings = [];
 
     vikingsList.forEach(function(v) {
         if (v.action.order === order) {
@@ -53,7 +62,7 @@ const findVikingsByOrder = function(order) {
 };
 
 const parseVikings = function() {
-    let parsedVikings = [];
+    const parsedVikings = [];
 
     vikingsList.forEach(function(v) {
         parsedVikings.push(v.parse());
@@ -67,7 +76,7 @@ const getRandomInt = function(min, max) {
 };
 
 router.post('/', function(req, res) {
-    let viking = new Viking();
+    const viking = new Viking();
 
     let maxTries = 10;
     let position = {
@@ -95,14 +104,13 @@ router.post('/', function(req, res) {
 
     vikingsList.push(viking);
 
-    let sendWithId = true;
+    const sendWithId = true;
     res.json(viking.parse(sendWithId));
-
-    io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
+    boradcastResult(parseVikings());
 });
 
 router.put('/', function(req, res) {
-    let viking = findVikingById(req.body.id);
+    const viking = findVikingById(req.body.id);
 
     if (!viking) {
         res.status(400).json({ error: 'deadViking' });
@@ -122,9 +130,9 @@ router.get('/', function(req, res) {
 
 const handleVikingAttack = function(viking) {
     try {
-        let attackPosition = viking.getActionPosition();
+        const attackPosition = viking.getActionPosition();
 
-        let otherViking = findVikingByPosition(attackPosition);
+        const otherViking = findVikingByPosition(attackPosition);
 
         if (otherViking) {
             otherViking.health -= viking.level;
@@ -140,12 +148,12 @@ const handleVikingAttack = function(viking) {
 
 const handleVikingMove = function(viking) {
     try {
-        let movePosition = viking.getActionPosition();
+        const movePosition = viking.getActionPosition();
 
-        let otherViking = findVikingByPosition(movePosition);
+        const otherViking = findVikingByPosition(movePosition);
 
         if (otherViking) {
-            throw new Error(viking.id + ' something is in my way');
+            throw new Error(`${viking.id} something is in my way`);
         }
 
         viking.position = movePosition;
@@ -166,7 +174,7 @@ const disposeBodies = function() {
     let i = vikingsList.length;
 
     while (i--) {
-        let viking = vikingsList[i];
+        const viking = vikingsList[i];
 
         if (viking.isDead()) {
             vikingsList.splice(i, 1);
@@ -189,7 +197,7 @@ const levelUpVikings = function() {
 let gameRound = 1;
 
 const gameUpdate = function() {
-    console.log('Game round ' + gameRound++);
+    console.log(`Game round ${gameRound++}`);
 
     let vikings = findVikingsByOrder(Action.ORDER_ATTACK);
 
@@ -215,9 +223,9 @@ const gameUpdate = function() {
 
     resetVikingsOrders();
 
-    io.sockets.emit('vikingsUpdate', { vikings: parseVikings() });
+    boradcastResult(parseVikings());
 };
 
-let gameInterval = setInterval(gameUpdate, speed);
+const gameInterval = setInterval(gameUpdate, speed);
 
 module.exports = router;
