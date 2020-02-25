@@ -2,6 +2,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: './board/index.js',
+    mode: 'development',
     module: {
         rules: [
             {

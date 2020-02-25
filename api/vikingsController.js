@@ -20,7 +20,7 @@ const wss = new WebSocket.Server({ port: 3001 });
 const boradcastResult = vikings => {
     wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ vikings }));
+            client.send(JSON.stringify({ vikings, meta: {mapSizeX, mapSizeY} }));
         }
     });
 };
@@ -149,6 +149,7 @@ const handleVikingAttack = function(viking) {
 const handleVikingMove = function(viking) {
     try {
         const movePosition = viking.getActionPosition();
+        console.log(movePosition, viking.name)
 
         const otherViking = findVikingByPosition(movePosition);
 
