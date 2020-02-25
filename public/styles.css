@@ -1,0 +1,21 @@
+body {
+    font-size: 16px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+}
+h1 {
+    font-size: 1.8em;
+}
+
+.row {
+    font-size: 10px;
+    display: flex;
+    border-top: 1px solid #dadada;
+}
+
+.col {
+    flex: 1;
+    height: 44px;
+    border-right: 1px solid #dadada;
+
+}
