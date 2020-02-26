@@ -135,7 +135,8 @@ const handleVikingAttack = function(viking) {
         const otherViking = findVikingByPosition(attackPosition);
 
         if (otherViking) {
-            otherViking.health -= viking.level;
+            //otherViking.health -= viking.level; // TODO find good damage value
+            otherViking.health -= 1;
 
             if (otherViking.isDead()) {
                 viking.kills += 1;
