@@ -5,11 +5,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const config = require("./libs/config.js");
-const obstacles = require("./libs/classes/Obstacles.js")(config);
+const obstacles = new require("./libs/classes/Obstacles.js")(config);
 
 obstacles.generate();
 //console.log(obstacles.map);
-//process.exit();
 
 const port = process.env.PORT || 3000;
 
