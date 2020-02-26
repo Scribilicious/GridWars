@@ -46,6 +46,31 @@ function renderVikings(vikings) {
     });
 }
 
+function renderObstacles(obstacles) {
+    vikings.forEach(function(viking) {
+        var x = viking.position.x;
+        var y = viking.position.y;
+
+        var fontSize = 15;
+        ctx.font = fontSize + 'px Arial';
+
+        ctx.fillText(viking.name, x * unitSize - 20, y * unitSize - 5);
+        ctx.fillText(
+            viking.level,
+            x * unitSize + 3,
+            y * unitSize + fontSize + 18
+        );
+
+        ctx.drawImage(
+            vikingImg,
+            x * unitSize,
+            y * unitSize,
+            unitSize,
+            unitSize
+        );
+    });
+}
+
 function displayTheBest(vikings) {
     var bestViking = vikings.reduce(function(candidate, current) {
         return candidate.level > current.level ? candidate : current;
