@@ -1,51 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import Viking from './Viking';
+import { getMetadata, setMetadata } from './config';
 
-const createVikingsMap = vikings =>
-    vikings.reduce((mapping, viking) => {
-        const key = `${viking.position.x}_${viking.position.y}`;
-        mapping[key] = viking;
-        return mapping;
-    }, {});
-
-const getViking = (rowIndex, colIndex, vikings) => {
-    const key = `${colIndex}_${rowIndex}`;
-    return vikings[key] || null;
-};
-
-const Viking = viking => {
-    const renderViking = viking.viking;
-    return renderViking ? <div>{renderViking.name}</div> : null;
-};
 
 const Game = () => {
     const [vikings, setVikings] = useState([]);
-    const [meta, setMeta] = useState({});
-    const { mapSizeX, mapSizeY } = meta;
+    const { mapSizeX, mapSizeY } = getMetadata();
+
     useEffect(() => {
         const webSocket = new WebSocket('ws://localhost:3001/');
         webSocket.onmessage = event => {
             const { vikings, meta } = JSON.parse(event.data);
-            setVikings(createVikingsMap(vikings));
-            setMeta(meta);
+            console.log(vikings);
+            setVikings(vikings);
+            setMetadata(meta);
         };
     }, []);
+
+    if (!mapSizeX || !mapSizeY) {
+        return <div>Waiting for game to start ...</div>;
+    }
 
     return (
         <div className="game">
             <div className="game-board">
+                {vikings.map(viking => (
+                    <Viking viking={viking} />
+                ))}
+
                 {new Array(mapSizeY).fill(null).map((_, rowIndex) => (
                     <div className="row" key={`row_${rowIndex}`}>
                         {new Array(mapSizeX).fill(null).map((_, colIndex) => (
-                            <div className="col" key={`x${colIndex}_ y${rowIndex}`} id={`x${colIndex}_ y${rowIndex}`}>
-                                <Viking
-                                    viking={getViking(
-                                        rowIndex,
-                                        colIndex,
-                                        vikings
-                                    )}
-                                />
-                            </div>
+                            <div
+                                className="col"
+                                key={`x${colIndex}_ y${rowIndex}`}
+                                id={`x${colIndex}_ y${rowIndex}`}
+                            />
                         ))}
                     </div>
                 ))}
