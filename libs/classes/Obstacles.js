@@ -1,4 +1,5 @@
 class Obstacles {
+
     constructor(config) {
         this.config = config;
         this.obstacles = [];
@@ -25,29 +26,28 @@ class Obstacles {
 
         while (
             x === null ||
-            this.checkPosition(x, y) === true
+            this.checkPosition({x, y}) === true
         ) {
             x = this.randomInt(0, this.config.MAP_SIZE_X);
             y = this.randomInt(0, this.config.MAP_SIZE_Y);
         }
 
         this.obstacles.push({
-            x : x,
-            y : y,
+            x,
+            y,
             type : this.randomInt(0, this.config.OBSTACLES_TYPES)
         });
     }
 
-    checkPosition(x, y) {
-
-        const size = this.obstacle.length;
+    checkPosition(position) {
+        const size = this.obstacles.length;
 
         if (!size) {
             return false;
         }
 
         for (let i = 0; i < size; i++) {
-            if (this.obstacle[i].x === x && this.obstacle[i].y === y) {
+            if (this.obstacles[i].x === position.x && this.obstacles[i].y === position.y) {
                 return true;
             }
         }
@@ -56,7 +56,7 @@ class Obstacles {
     }
 
     randomInt(low, high) {
-        return Math.floor(Math.random() * (high - low + 1) + low)
+        return Math.floor(Math.random() * (high - (low + 1)) + low)
     }
 }
 

@@ -61,7 +61,8 @@ function populate() {
     botNumber++;
 
     const Wolf = new Bot('Woelfchen' + botNumber, hunter);
+    console.log('Bot created');
     Wolf.connect();
 }
 
-setInterval(populate, SPEED);
+module.exports = () => setInterval(populate, SPEED);

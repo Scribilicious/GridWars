@@ -77,6 +77,10 @@ const getRandomInt = function(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 };
 
+const isPositionAvailable = function(position) {
+    return !obstacles.checkPosition(position) && !findVikingByPosition(position);
+}
+
 router.post('/', function(req, res) {
     const viking = new Viking();
 
@@ -86,7 +90,7 @@ router.post('/', function(req, res) {
         y: getRandomInt(0, mapSizeY),
     };
 
-    while (findVikingByPosition(position) && maxTries--) {
+    while (!isPositionAvailable(position) && maxTries--) {
         position = {
             x: getRandomInt(0, mapSizeX),
             y: getRandomInt(0, mapSizeY),
@@ -153,9 +157,7 @@ const handleVikingMove = function(viking) {
     try {
         const movePosition = viking.getActionPosition();
 
-        const otherViking = findVikingByPosition(movePosition);
-
-        if (otherViking) {
+        if (!isPositionAvailable(movePosition)) {
             throw new Error(`${viking.id} something is in my way`);
         }
 

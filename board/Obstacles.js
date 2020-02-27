@@ -25,7 +25,7 @@ const Obstacle = () => {
         const { x, y, type } = obstacle;
         return (
             <div key={index} style={calculateStyles(x, y, type)}>
-                l
+                {x} : {y}
             </div>
         );
     });

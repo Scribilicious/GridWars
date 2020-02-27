@@ -3,7 +3,7 @@ const Config = {
     MAP_SIZE_Y: 30,
     SPEED: 5000,
     OBSTACLES: 100,
-    OBSTACLES_TYPES: 5
+    OBSTACLES_TYPES: 6
 };
 
 module.exports = Config;
