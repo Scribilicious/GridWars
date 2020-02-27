@@ -1,14 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-//const http = require('http').Server(app);
 const bodyParser = require('body-parser');
-
-const config = require("./libs/config.js");
-const obstacles = new require("./libs/classes/Obstacles.js")(config);
-
-obstacles.generate();
-//console.log(obstacles.map);
 
 const port = process.env.PORT || 3000;
 

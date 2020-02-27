@@ -4,3 +4,4 @@ node_modules/
 .vscode/
 yarn.lock
 yarn-error.log
+public/bundle.js

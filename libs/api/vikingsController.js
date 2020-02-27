@@ -9,6 +9,8 @@ const Viking = require('./Viking');
 const Action = require('./Action');
 const Config = require('../config');
 
+const obstacles = new require("../classes/Obstacles.js")(Config);
+
 const mapSizeX = Config.MAP_SIZE_X;
 const mapSizeY = Config.MAP_SIZE_Y;
 const speed = Config.SPEED;
@@ -20,7 +22,7 @@ const wss = new WebSocket.Server({ port: 3001 });
 const boradcastResult = vikings => {
     wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ vikings, meta: {mapSizeX, mapSizeY} }));
+            client.send(JSON.stringify({ vikings, meta: { mapSizeX, mapSizeY, obstacles: obstacles.map } }));
         }
     });
 };
@@ -125,7 +127,7 @@ router.put('/', function(req, res) {
 router.get('/', function(req, res) {
     console.log('getting vikings');
 
-    res.json({ vikings: parseVikings() });
+    res.json({ vikings: parseVikings(), meta: { mapSizeX, mapSizeY, obstacles: obstacles.map } });
 });
 
 const handleVikingAttack = function(viking) {
@@ -150,7 +152,6 @@ const handleVikingAttack = function(viking) {
 const handleVikingMove = function(viking) {
     try {
         const movePosition = viking.getActionPosition();
-        console.log(movePosition, viking.name)
 
         const otherViking = findVikingByPosition(movePosition);
 

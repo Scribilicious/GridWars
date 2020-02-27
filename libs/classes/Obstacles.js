@@ -2,6 +2,7 @@ class Obstacles {
     constructor(config) {
         this.config = config;
         this.obstacles = [];
+        this.generate();
     }
 
     get map() {
@@ -38,9 +39,6 @@ class Obstacles {
     }
 
     checkPosition(x, y) {
-        if (!this.obstacle) {
-            return false;
-        }
 
         const size = this.obstacle.length;
 
