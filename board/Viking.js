@@ -3,7 +3,7 @@ import { getMetadata } from './config';
 
 const BASEHEIGHT = 70; // %
 const SIZE_INCREMENTS = 10;
-const FIELD_HEIGHT = 45;
+
 
 const getAvatar = level => (level > 2 ? 'maulaf' : 'wiki');
 const calculateAvaHeight = level => BASEHEIGHT + (level - 1) * SIZE_INCREMENTS;
@@ -11,6 +11,7 @@ const calculateOpacity = (level, health) => {
     const maxHealthForLevel = level * 2;
     return health / maxHealthForLevel;
 };
+const FIELD_HEIGHT = 45;
 const calculateStyles = viking => {
     const { position, level, health } = viking;
     const { mapSizeX } = getMetadata();
@@ -31,7 +32,6 @@ const Viking = props => {
     const { viking } = props;
     const { level, health, name} = viking;
     const { top, left, width, height, avaWidth, avaOpacity } = calculateStyles(viking);
-    console.log({ name, top, left });
 
     // todo: set only changed properties as styles, set on ref
     return (

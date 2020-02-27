@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Viking from './Viking';
+import Obstacles from './Obstacles';
 import { getMetadata, setMetadata } from './config';
-
 
 const Game = () => {
     const [vikings, setVikings] = useState([]);
@@ -12,7 +12,6 @@ const Game = () => {
         const webSocket = new WebSocket('ws://localhost:3001/');
         webSocket.onmessage = event => {
             const { vikings, meta } = JSON.parse(event.data);
-            console.log(vikings);
             setVikings(vikings);
             setMetadata(meta);
         };
@@ -26,8 +25,10 @@ const Game = () => {
         <div className="game">
             <div className="game-board">
                 {vikings.map(viking => (
-                    <Viking viking={viking} />
+                    <Viking viking={viking} key={viking.name} />
                 ))}
+
+                <Obstacles />
 
                 {new Array(mapSizeY).fill(null).map((_, rowIndex) => (
                     <div className="row" key={`row_${rowIndex}`}>
