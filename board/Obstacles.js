@@ -1,11 +1,11 @@
 import React from 'react';
-import { getMetadata } from './config';
+import { getMapData } from './config';
 
 const colors = ['red', 'pink', 'yellow', 'maroon', 'orange', 'green'];
 
 const FIELD_HEIGHT = 45;
 const calculateStyles = (x, y, type) => {
-    const { mapSizeX } = getMetadata();
+    const { mapSizeX } = getMapData();
     const ww = window.innerWidth;
     const fieldWidth = ww / mapSizeX - 1;
     return {
@@ -18,17 +18,18 @@ const calculateStyles = (x, y, type) => {
     };
 };
 
-const Obstacle = () => {
-    const { obstacles } = getMetadata();
-
-    return obstacles.map((obstacle, index) => {
-        const { x, y, type } = obstacle;
-        return (
-            <div key={index} style={calculateStyles(x, y, type)}>
-                {x} : {y}
-            </div>
-        );
-    });
+const Obstacles = () => {
+    const { obstacles } = getMapData();
+    return obstacles.map(obstacle => <Obstacle {...obstacle} />);
 };
 
-export default Obstacle;
+const Obstacle = React.memo(props => {
+    const { x, y, type } = props;
+    return (
+        <div key={'obst'+ x + y} style={calculateStyles(x, y, type)}>
+            {x} : {y}
+        </div>
+    );
+});
+
+export default Obstacles;

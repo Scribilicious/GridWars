@@ -1,7 +1,7 @@
-let metaData = {};
+let mapData = {};
 
-export const setMetadata = data => {
-    metaData = data;
+export const setMapData = data => {
+    mapData = data;
 };
 
-export const getMetadata = () => metaData;
+export const getMapData = () => mapData;

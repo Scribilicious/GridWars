@@ -9,7 +9,7 @@ const Viking = require('./Viking');
 const Action = require('./Action');
 const Config = require('../config');
 
-const obstacles = new require("../classes/Obstacles.js")(Config);
+const obstacles = new require('../classes/Obstacles.js')(Config);
 
 const mapSizeX = Config.MAP_SIZE_X;
 const mapSizeY = Config.MAP_SIZE_Y;
@@ -22,34 +22,22 @@ const wss = new WebSocket.Server({ port: 3001 });
 const boradcastResult = vikings => {
     wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ vikings, meta: { mapSizeX, mapSizeY, obstacles: obstacles.map } }));
+            client.send(
+                JSON.stringify({
+                    vikings,
+                    mapData: { mapSizeX, mapSizeY, obstacles: obstacles.map },
+                })
+            );
         }
     });
 };
 
-const findVikingById = function(id) {
-    let viking = null;
-
-    vikingsList.forEach(function(v) {
-        if (v.id === id) {
-            viking = v;
-        }
-    });
-
-    return viking;
-};
-
-const findVikingByPosition = function(position) {
-    let viking = null;
-
-    vikingsList.forEach(function(v) {
-        if (v.position.x === position.x && v.position.y === position.y) {
-            viking = v;
-        }
-    });
-
-    return viking;
-};
+const findVikingById = id => vikingsList.find(v => v.id === id);
+const findVikingByName = name => vikingsList.find(v => v.name === name);
+const findVikingByPosition = position =>
+    vikingsList.find(
+        v => v.position.x === position.x && v.position.y === position.y
+    );
 
 const findVikingsByOrder = function(order) {
     const vikings = [];
@@ -78,10 +66,24 @@ const getRandomInt = function(min, max) {
 };
 
 const isPositionAvailable = function(position) {
-    return !obstacles.checkPosition(position) && !findVikingByPosition(position);
-}
+    return (
+        !obstacles.checkPosition(position) && !findVikingByPosition(position)
+    );
+};
 
 router.post('/', function(req, res) {
+    const { name } = req.body;
+
+    if (!name) {
+        res.json({ error: 'please provide a name'});
+        return;
+    }
+
+    if (findVikingByName(name)) {
+        res.json({ error: `a viking with name ${name} already exists`});
+        return;
+    }
+
     const viking = new Viking();
 
     let maxTries = 10;
@@ -131,7 +133,10 @@ router.put('/', function(req, res) {
 router.get('/', function(req, res) {
     console.log('getting vikings');
 
-    res.json({ vikings: parseVikings(), meta: { mapSizeX, mapSizeY, obstacles: obstacles.map } });
+    res.json({
+        vikings: parseVikings(),
+        mapData: { mapSizeX, mapSizeY, obstacles: obstacles.map },
+    });
 });
 
 const handleVikingAttack = function(viking) {
@@ -141,7 +146,7 @@ const handleVikingAttack = function(viking) {
         const otherViking = findVikingByPosition(attackPosition);
 
         if (otherViking) {
-            //otherViking.health -= viking.level; // TODO find good damage value
+            // otherViking.health -= viking.level; // TODO find good damage value
             otherViking.health -= 1;
 
             if (otherViking.isDead()) {
