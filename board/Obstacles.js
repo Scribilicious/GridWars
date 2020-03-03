@@ -20,13 +20,15 @@ const calculateStyles = (x, y, type) => {
 
 const Obstacles = () => {
     const { obstacles } = getMapData();
-    return obstacles.map(obstacle => <Obstacle {...obstacle} />);
+    return obstacles.map((obstacle, index) => (
+        <Obstacle {...obstacle} key={`obst${index}`} />
+    ));
 };
 
 const Obstacle = React.memo(props => {
     const { x, y, type } = props;
     return (
-        <div key={'obst'+ x + y} style={calculateStyles(x, y, type)}>
+        <div style={calculateStyles(x, y, type)}>
             {x} : {y}
         </div>
     );
