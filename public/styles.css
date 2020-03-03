@@ -70,6 +70,11 @@ h1 {
     animation-delay: .4s;
 }
 
+.obstacles svg {
+    width: 100%;
+    height: 100%;
+}
+
 @keyframes stretch {
     0% {
         transform: scaleY(.9);

@@ -2,6 +2,7 @@ const Api = require('./Api');
 const Bot = require('./Bot');
 const Config = require('../config');
 
+const MAXBOTS = 20;
 const { SPEED } = Config;
 
 let botNumber = 0;
@@ -63,16 +64,25 @@ function hunter() {
     return bot.move(nextStep);
 }
 
+
 function populate() {
     botNumber++;
 
-    const Wolf = new Bot(`Woelfchen${botNumber}`, hunter);
-    const Wolf2 = new Bot(`Woelfchen${botNumber}`, hunter);
-    const Opfer = new Bot(`Opfer${botNumber}`, () => {});
-    console.log('Bot created');
-    Wolf2.connect();
-    Wolf.connect();
-    Opfer.connect();
+    setTimeout(function() {
+        const Wolf = new Bot(`Woelfchen${botNumber}`, hunter);
+        const Wolf2 = new Bot(`Woelfchen${botNumber}`, hunter);
+        const Opfer = new Bot(`Opfer${botNumber}`, () => {});
+        console.log('Bot created');
+        Wolf2.connect();
+        Wolf.connect();
+        Opfer.connect();
+
+        if (botNumber < MAXBOTS) {
+            populate();
+        }
+
+    }, SPEED);
 }
 
-module.exports = () => setInterval(populate, SPEED);
+
+module.exports = populate;

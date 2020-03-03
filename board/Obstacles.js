@@ -1,7 +1,10 @@
 import React from 'react';
 import { getMapData } from './config';
 
-const colors = ['red', 'pink', 'yellow', 'maroon', 'orange', 'green'];
+import Damage1 from './Obstacles/Damage1';
+import Damage2 from './Obstacles/Damage2';
+import Damage3 from './Obstacles/Damage3';
+import Obstacle1 from './Obstacles/Obstacle1';
 
 const FIELD_HEIGHT = 45;
 const calculateStyles = (x, y, type) => {
@@ -13,23 +16,37 @@ const calculateStyles = (x, y, type) => {
         left: Math.round(x * fieldWidth),
         width: fieldWidth,
         height: FIELD_HEIGHT,
-        background: colors[type],
+        // background: colors[type],
         position: 'absolute',
     };
 };
 
+const getObstacle = (type, damage) => {
+    if (damage) {
+        if (type === 0) {
+            return Damage1;
+        }
+        if (type === 1) {
+            return Damage2;
+        }
+        return Damage3;
+    }
+
+    return Obstacle1;
+};
+
 const Obstacles = () => {
     const { obstacles } = getMapData();
-    return obstacles.map((obstacle, index) => (
-        <Obstacle {...obstacle} key={`obst${index}`} />
-    ));
+    return obstacles.map(obstacle => <Obstacle {...obstacle} />);
 };
 
 const Obstacle = React.memo(props => {
-    const { x, y, type } = props;
+    const { x, y, type, damage } = props;
+    const SvgImage = getObstacle(type, damage);
+
     return (
-        <div style={calculateStyles(x, y, type)}>
-            {x} : {y}
+        <div class="obstacles" key={'obst'+ x + y} style={calculateStyles(x, y)}>
+            <SvgImage/>
         </div>
     );
 });

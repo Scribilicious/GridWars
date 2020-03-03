@@ -1,8 +1,8 @@
 import React from 'react';
 import { getMapData } from './config';
-import Level1Avatar from './avatars/Level1';
-import Level2Avatar from './avatars/Level2';
-import Level3Avatar from './avatars/Level3';
+import Level1Avatar from './Avatars/Level1';
+import Level2Avatar from './Avatars/Level2';
+import Level3Avatar from './Avatars/Level3';
 
 const BASEHEIGHT = 70; // %
 const SIZE_INCREMENTS = 10;

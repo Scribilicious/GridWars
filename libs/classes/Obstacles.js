@@ -11,6 +11,7 @@ class Obstacles {
     }
 
     generate() {
+        this.damageCount = 0;
         this.obstacles = [];
 
         for (let i = 0; i < this.config.OBSTACLES; i++) {
@@ -23,18 +24,25 @@ class Obstacles {
     add() {
         let x = null;
         let y = null;
+        let damage = 0;
 
         while (
             x === null ||
             this.checkPosition({x, y}) === true
         ) {
-            x = this.randomInt(0, this.config.MAP_SIZE_X);
-            y = this.randomInt(0, this.config.MAP_SIZE_Y);
+            x = this.randomInt(0, this.config.MAP_SIZE_X - 1);
+            y = this.randomInt(0, this.config.MAP_SIZE_Y - 1);
+        }
+
+        if (this.damageCount < this.config.OBSTACLES_DAMAGE) {
+            damage = 1;
+            this.damageCount++;
         }
 
         this.obstacles.push({
             x,
             y,
+            damage,
             type : this.randomInt(0, this.config.OBSTACLES_TYPES)
         });
     }
@@ -56,7 +64,7 @@ class Obstacles {
     }
 
     randomInt(low, high) {
-        return Math.floor(Math.random() * (high - (low + 1)) + low)
+        return Math.floor(Math.random() * (high - low + 1) + low)
     }
 }
 
