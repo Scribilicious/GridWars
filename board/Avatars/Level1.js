@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Level1 = ({ color = '92278f', animationDelay }) => {
+const Level1 = ({ color, animationDelay }) => {
     return (
         <svg
             className="animation"

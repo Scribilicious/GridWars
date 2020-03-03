@@ -51,7 +51,9 @@ const Viking = React.memo(props => {
     return (
         <div className="viking" style={{ top, left, width, height, opacity }}>
             <Avatar color={color} animationDelay={animationDelay} />
-            <span className="viking-name">{name}</span>
+            <span className="viking-name">
+                {name} | {level}
+            </span>
         </div>
     );
 });

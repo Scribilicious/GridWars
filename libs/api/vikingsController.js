@@ -147,8 +147,9 @@ const handleVikingAttack = function(viking) {
         const otherViking = findVikingByPosition(attackPosition);
 
         if (otherViking) {
-            // otherViking.health -= viking.level; // TODO find good damage value
-            otherViking.health -= 1;
+            otherViking.health -= viking.level;
+            //otherViking.health -= Math.ceil(viking.level / 2); // TODO find good damage value
+            //otherViking.health -= 1;
 
             if (otherViking.isDead()) {
                 viking.kills += 1;
@@ -175,7 +176,8 @@ const handleVikingMove = function(viking) {
 
 const handleVikingHeal = function(viking) {
     try {
-        viking.increaseHitPoints(viking.level);
+        //viking.increaseHitPoints(viking.level);
+        viking.increaseHitPoints(1);
     } catch (e) {
         console.log(e);
     }

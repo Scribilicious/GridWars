@@ -2,7 +2,7 @@ const Api = require('./Api');
 const Bot = require('./Bot');
 const Config = require('../config');
 
-const SPEED = Config.SPEED;
+const { SPEED } = Config;
 
 let botNumber = 0;
 let players = [];
@@ -27,13 +27,19 @@ updatePlayers();
  */
 function hunter() {
     const bot = this;
-
+    const { position } = bot;
     // target next player in line (players is sorted by entry)
-    const victim =
-        players[0] && players[0].name !== bot.name ? players[0] : players[1];
+    const victims = players
+        .map(player => {
+            const distance = Math.abs(position.x - player.position.x) + Math.abs(position.y - player.position.y);
+            return { distance, ...player };
+        })
+        .sort((a, b) => a.distance - b.distance);
+
+    const victim = victims[0] && victims[0].name !== bot.name ? victims[0] : victims[1];
 
     // while no other Player on the Board, heal and keep the re-evaluation cycle alive
-    if (!victim) {
+    if (victim.distance > 2 && bot.health < bot.level * 2 && bot.level > 1) {
         return bot.heal();
     }
 
@@ -60,9 +66,13 @@ function hunter() {
 function populate() {
     botNumber++;
 
-    const Wolf = new Bot('Woelfchen' + botNumber, hunter);
+    const Wolf = new Bot(`Woelfchen${botNumber}`, hunter);
+    const Wolf2 = new Bot(`Woelfchen${botNumber}`, hunter);
+    const Opfer = new Bot(`Opfer${botNumber}`, () => {});
     console.log('Bot created');
+    Wolf2.connect();
     Wolf.connect();
+    Opfer.connect();
 }
 
 module.exports = () => setInterval(populate, SPEED);
