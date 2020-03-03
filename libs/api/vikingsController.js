@@ -75,12 +75,12 @@ router.post('/', function(req, res) {
     const { name } = req.body;
 
     if (!name) {
-        res.json({ error: 'please provide a name'});
+        res.json({ error: 'please provide a name' });
         return;
     }
 
     if (findVikingByName(name)) {
-        res.json({ error: `a viking with name ${name} already exists`});
+        res.json({ error: `a viking with name ${name} already exists` });
         return;
     }
 
@@ -107,8 +107,9 @@ router.post('/', function(req, res) {
     }
 
     viking.position = position;
-
     viking.name = req.body.name;
+    viking.color = req.body.color || ((Math.random() * 0xffffff) << 0).toString(16);
+    viking.animationDelay = getRandomInt(1, 6);
 
     vikingsList.push(viking);
 

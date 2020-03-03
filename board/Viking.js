@@ -43,16 +43,14 @@ const calculateStyles = viking => {
 };
 
 const Viking = React.memo(props => {
-    const { level, name, y, x } = props;
-    const { top, left, width, height, opacity } = calculateStyles(
-        props
-    );
+    const { level, name, color, animationDelay } = props;
+    const { top, left, width, height, opacity } = calculateStyles(props);
     const Avatar = getAvatar(level);
 
     // todo: set only changed properties as styles, set on ref
     return (
         <div className="viking" style={{ top, left, width, height, opacity }}>
-            <Avatar />
+            <Avatar color={color} animationDelay={animationDelay} />
             <span className="viking-name">{name}</span>
         </div>
     );

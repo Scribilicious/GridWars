@@ -30,6 +30,8 @@ const Game = () => {
                         level,
                         health,
                         position: { x, y },
+                        color,
+                        animationDelay,
                     } = viking;
                     return (
                         <Viking
@@ -38,7 +40,9 @@ const Game = () => {
                             health={health}
                             x={x}
                             y={y}
-                            key={viking.name}
+                            color={color}
+                            animationDelay={animationDelay}
+                            key={`viking${viking.name}`}
                         />
                     );
                 })}

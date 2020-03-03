@@ -15,6 +15,8 @@ function Viking() {
     this.kills = 0;
     this.action = { order: Action.ORDER_STOP };
     this.position = { x: 0, y: 0 };
+    this.color = '92278f';
+    this.animationDelay = 0;
 }
 
 Viking.prototype.parse = function(withId) {
@@ -25,6 +27,8 @@ Viking.prototype.parse = function(withId) {
         kills: this.kills,
         action: this.action,
         position: this.position,
+        color: this.color,
+        animationDelay: this.animationDelay,
     };
 
     if (withId) {
