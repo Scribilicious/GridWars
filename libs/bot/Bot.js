@@ -19,7 +19,7 @@ Bot.prototype.connect = function() {
             this.level = data.level;
             this.position = data.position;
         })
-        .then(() => this.strategy())
+        .then()
         .catch(error => console.error(error));
 };
 
@@ -29,10 +29,8 @@ Bot.prototype.order = function(order = 'heal', target = { x: 0, y: 0 }) {
             this.level = data.level;
             this.health = data.health;
             this.position = data.position;
-
-            console.log(data);
         })
-        .then(() => this.strategy())
+        .then()
         .catch(error => console.error(error));
 };
 

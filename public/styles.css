@@ -23,7 +23,7 @@ h1 {
     border-right: 1px solid #dadada;
 }
 
-.viking {
+.player {
     font-size: 9px;
     position: absolute;
     top: 0;
@@ -31,7 +31,7 @@ h1 {
     transition: all 2s ease 0s;
 }
 
-.viking-name {
+.player-name {
     display: inline-block;
     width: 100%;
     text-align: center;
@@ -39,7 +39,7 @@ h1 {
     top: -12px;
 }
 
-.viking img {
+.player img {
     width: 70%;
     display: block;
     margin: 0 auto;

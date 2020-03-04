@@ -47,7 +47,7 @@ class Obstacles {
         });
     }
 
-    checkPosition(position) {
+    checkPosition(position, damage) {
         const size = this.obstacles.length;
 
         if (!size) {
@@ -56,11 +56,20 @@ class Obstacles {
 
         for (let i = 0; i < size; i++) {
             if (this.obstacles[i].x === position.x && this.obstacles[i].y === position.y) {
-                return true;
+                if (damage === null) {
+                    return true;
+                }
+                if (this.obstacles[i].damage === damage) {
+                    return true;
+                }
             }
         }
 
         return false;
+    }
+
+    checkPositionDamage(position) {
+        return this.checkPosition(position, 1);
     }
 
     randomInt(low, high) {

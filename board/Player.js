@@ -27,11 +27,11 @@ const calculateOpacity = (level, health) => {
 };
 
 const FIELD_HEIGHT = 45;
-const calculateStyles = viking => {
-    const { x, y, level, health } = viking;
-    const { mapSizeX } = getMapData();
+const calculateStyles = player => {
+    const { x, y, level, health } = player;
+    const { width } = getMapData();
     const ww = window.innerWidth;
-    const fieldWidth = ww / mapSizeX - 1;
+    const fieldWidth = ww / width - 1;
     const sizeFactor = calculateSizeFatctor(level);
     return {
         top: Math.round(y * FIELD_HEIGHT),
@@ -42,20 +42,20 @@ const calculateStyles = viking => {
     };
 };
 
-const Viking = React.memo(props => {
+const Player = React.memo(props => {
     const { level, name, color, animationDelay } = props;
     const { top, left, width, height, opacity } = calculateStyles(props);
     const Avatar = getAvatar(level);
 
     // todo: set only changed properties as styles, set on ref
     return (
-        <div className="viking" style={{ top, left, width, height, opacity }}>
+        <div className="player" style={{ top, left, width, height, opacity }}>
             <Avatar color={color} animationDelay={animationDelay} />
-            <span className="viking-name">
+            <span className="player-name">
                 {name} | {level}
             </span>
         </div>
     );
 });
 
-export default Viking;
+export default Player;

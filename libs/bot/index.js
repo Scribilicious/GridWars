@@ -1,24 +1,18 @@
+// Some settings
+const victims = 40;
+const hunters = 10;
+
+
 const Api = require('./Api');
 const Bot = require('./Bot');
 const Config = require('../config');
+const WebSocket = require('ws');
 
-const MAXBOTS = 20;
 const { SPEED } = Config;
 
 let botNumber = 0;
 let players = [];
-
-function updatePlayers() {
-    setTimeout(function() {
-        Api.call()
-            .then(data => {
-                players = data.vikings;
-            })
-            .then(() => updatePlayers())
-            .catch(error => console.error(error));
-    }, SPEED / 2);
-}
-updatePlayers();
+let Bots = [];
 
 /*
  * hunter is a Strategy configurable for each Bot.
@@ -29,15 +23,22 @@ updatePlayers();
 function hunter() {
     const bot = this;
     const { position } = bot;
-    // target next player in line (players is sorted by entry)
+
     const victims = players
         .map(player => {
+            if (!position) {
+                return;
+            }
             const distance = Math.abs(position.x - player.position.x) + Math.abs(position.y - player.position.y);
             return { distance, ...player };
         })
         .sort((a, b) => a.distance - b.distance);
 
     const victim = victims[0] && victims[0].name !== bot.name ? victims[0] : victims[1];
+
+    if (!victim) {
+        return;
+    }
 
     // while no other Player on the Board, heal and keep the re-evaluation cycle alive
     if (victim.distance > 2 && bot.health < bot.level * 2 && bot.level > 1) {
@@ -65,24 +66,53 @@ function hunter() {
 }
 
 
-function populate() {
-    botNumber++;
+function populate(max, type) {
+    let i = 0;
 
-    setTimeout(function() {
-        const Wolf = new Bot(`Woelfchen${botNumber}`, hunter);
-        const Wolf2 = new Bot(`Woelfchen${botNumber}`, hunter);
-        const Opfer = new Bot(`Opfer${botNumber}`, () => {});
-        console.log('Bot created');
-        Wolf2.connect();
-        Wolf.connect();
-        Opfer.connect();
+    function createBot() {
+        i++;
 
-        if (botNumber < MAXBOTS) {
-            populate();
-        }
+        setTimeout(function() {
+            let bot = {};
 
-    }, SPEED);
+            if (!type) {
+                bot = new Bot(`Woelfchen ${i}`, hunter);
+            } else {
+                bot = new Bot(`Opfer ${i}`, () => {});
+            }
+
+            bot.connect();
+            Bots.push(bot);
+
+            console.log('Bot created');
+
+            if (i < max) {
+                createBot();
+            }
+
+        }, SPEED);
+    }
+
+    createBot();
+}
+
+function start() {
+
+    populate(hunters, 0); // Hunters
+    populate(victims, 1); // Victims
+
+    const webSocket = new WebSocket('ws://localhost:3001/');
+    webSocket.onmessage = event => {
+        data = JSON.parse(event.data);
+        players = data.players;
+
+        Bots.forEach(bot => {
+            if (bot.id) {
+                bot.strategy();
+            }
+        });
+    };
 }
 
 
-module.exports = populate;
+module.exports = start;

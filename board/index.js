@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import Viking from './Viking';
+import Player from './Player';
 import Obstacles from './Obstacles';
 import { getMapData, setMapData } from './config';
 
 const Game = () => {
-    const [vikings, setVikings] = useState([]);
-    const { mapSizeX, mapSizeY } = getMapData();
+    const [players, setPlayers] = useState([]);
+    const { width, height} = getMapData();
 
     useEffect(() => {
         const webSocket = new WebSocket('ws://localhost:3001/');
         webSocket.onmessage = event => {
-            const { vikings, mapData } = JSON.parse(event.data);
-            setVikings(vikings);
-            setMapData(mapData);
+            const { players, map } = JSON.parse(event.data);
+            setPlayers(players);
+            setMapData(map);
         };
     }, []);
 
-    if (!mapSizeX || !mapSizeY) {
-        return <div>Waiting for game to start ...</div>;
+    if (!width || !height) {
+        return (
+            <div>Waiting for game to start...</div>
+        );
     }
 
     return (
         <div className="game">
             <div className="game-board">
-                {vikings.map(viking => {
+                {players.map(player => {
                     const {
                         name,
                         level,
@@ -32,9 +34,9 @@ const Game = () => {
                         position: { x, y },
                         color,
                         animationDelay,
-                    } = viking;
+                    } = player;
                     return (
-                        <Viking
+                        <Player
                             name={name}
                             level={level}
                             health={health}
@@ -42,16 +44,16 @@ const Game = () => {
                             y={y}
                             color={color}
                             animationDelay={animationDelay}
-                            key={`viking${viking.name}`}
+                            key={`player${player.name}`}
                         />
                     );
                 })}
 
                 <Obstacles />
 
-                {new Array(mapSizeY).fill(null).map((_, rowIndex) => (
+                {new Array(height).fill(null).map((_, rowIndex) => (
                     <div className="row" key={`row_${rowIndex}`}>
-                        {new Array(mapSizeX).fill(null).map((_, colIndex) => (
+                        {new Array(width).fill(null).map((_, colIndex) => (
                             <div
                                 className="col"
                                 key={`x${colIndex}_ y${rowIndex}`}

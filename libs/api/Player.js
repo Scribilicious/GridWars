@@ -7,9 +7,9 @@ const Config = require('../config');
 const mapSizeX = Config.MAP_SIZE_X;
 const mapSizeY = Config.MAP_SIZE_Y;
 
-function Viking() {
+function Player() {
     this.id = shortid.generate();
-    this.name = 'Bob';
+    this.name = 'Player';
     this.level = 1;
     this.health = 2;
     this.kills = 0;
@@ -19,8 +19,8 @@ function Viking() {
     this.animationDelay = 0;
 }
 
-Viking.prototype.parse = function(withId) {
-    let vikingJSON = {
+Player.prototype.parse = function(withId) {
+    let playerJSON = {
         name: this.name,
         level: this.level,
         health: this.health,
@@ -32,13 +32,13 @@ Viking.prototype.parse = function(withId) {
     };
 
     if (withId) {
-        vikingJSON.id = this.id;
+        playerJSON.id = this.id;
     }
 
-    return vikingJSON;
+    return playerJSON;
 };
 
-Viking.prototype.getActionPosition = function() {
+Player.prototype.getActionPosition = function() {
     let position = {};
 
     let p = this.action.position;
@@ -47,9 +47,9 @@ Viking.prototype.getActionPosition = function() {
         position.y = this.position.y + p.y;
 
         position.x =
-            position.x < 0 ? 0 : position.x > mapSizeX ? mapSizeX : position.x;
+            position.x < 0 ? 0 : position.x >= mapSizeX ? mapSizeX - 1 : position.x;
         position.y =
-            position.y < 0 ? 0 : position.y > mapSizeY ? mapSizeY : position.y;
+            position.y < 0 ? 0 : position.y >= mapSizeY ? mapSizeY - 1 : position.y;
 
     } else {
         throw new Error(this.id + ' position of order is invalid');
@@ -58,7 +58,7 @@ Viking.prototype.getActionPosition = function() {
     return position;
 };
 
-Viking.prototype.checkForLevelUp = function() {
+Player.prototype.checkForLevelUp = function() {
     if (this.kills > Math.pow(2, this.level - 1)) {
         this.level += 1;
         this.kills = 0;
@@ -66,7 +66,7 @@ Viking.prototype.checkForLevelUp = function() {
     }
 };
 
-Viking.prototype.increaseHitPoints = function(healthToAdd) {
+Player.prototype.increaseHitPoints = function(healthToAdd) {
     this.health += healthToAdd;
 
     if (this.health > this.level * 2) {
@@ -74,8 +74,8 @@ Viking.prototype.increaseHitPoints = function(healthToAdd) {
     }
 };
 
-Viking.prototype.isDead = function() {
+Player.prototype.isDead = function() {
     return this.health <= 0;
 };
 
-module.exports = Viking;
+module.exports = Player;

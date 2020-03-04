@@ -7,16 +7,17 @@ import Damage3 from './Obstacles/Damage3';
 import Obstacle1 from './Obstacles/Obstacle1';
 
 const FIELD_HEIGHT = 45;
-const calculateStyles = (x, y, type) => {
-    const { mapSizeX } = getMapData();
+
+const calculateStyles = (x, y) => {
+    const { width } = getMapData();
     const ww = window.innerWidth;
-    const fieldWidth = ww / mapSizeX - 1;
+    const fieldWidth = ww / width - 1;
+
     return {
         top: Math.round(y * FIELD_HEIGHT),
         left: Math.round(x * fieldWidth),
         width: fieldWidth,
         height: FIELD_HEIGHT,
-        // background: colors[type],
         position: 'absolute',
     };
 };
@@ -45,7 +46,7 @@ const Obstacle = React.memo(props => {
     const SvgImage = getObstacle(type, damage);
 
     return (
-        <div class="obstacles" key={'obst'+ x + y} style={calculateStyles(x, y)}>
+        <div className="obstacles" key={'obst'+ x + y + type} style={calculateStyles(x, y)}>
             <SvgImage/>
         </div>
     );

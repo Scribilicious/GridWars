@@ -3,7 +3,7 @@
 const express = require('express');
 const api = express.Router();
 
-api.use('/vikings', require('./vikingsController'));
+api.use('/controller', require('./playersController'));
 
 api.get('/', (req, res) => {
     res.json({ message: 'It works!' });

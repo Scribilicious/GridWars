@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const URL = 'http://localhost:3000/api/vikings';
+const URL = 'http://localhost:3000/api/controller';
 
 const Api = {
     call(method = 'GET', data) {

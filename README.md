@@ -14,17 +14,17 @@ Seize the glory and rise to the highest kill value.
 
 # Credits
 
-This is a fork of the original Project by Radu Creosteanu 
+This is a fork of the original Project by Radu Creosteanu
 https://github.com/Creosteanu/valhalla
 
 # System capabilities
 
-POST /vikings
+POST /controller
 
 -   body: {name:'someName'}
 -   response: {name:'someName',level:1, health:2, kills:0, position:{x:0,y:0}, id:'someId'}
 
-PUT /vikings
+PUT /controller
 
 -   body: {id:'someId', action:{order:'move', position:{x:0,:y:0}}}
 -   response: {name:'someName',level:1, health:2, kills:0, position:{x:0,y:0}, id:'someId', action:{order:'move', position:{x:0,:y:0}}}
@@ -43,7 +43,7 @@ Values less than -1 and above 1 are disregarded.
 -   position:{x:1,:y:0} - right
 -   position:{x:-1,:y:0} - left
 
-GET /vikings
+GET /controller
 Gives list of all Vikings without respective ids - effectively the game map.
 
 Socket io events are emitted for new Vikings and for game ticks.
@@ -52,11 +52,11 @@ Socket io events are emitted for new Vikings and for game ticks.
 
 Server IP: 52.58.199.76 PORT 8080
 
-GET http://52.58.199.76:8080/api/vikings
+GET http://52.58.199.76:8080/api/controller
 
-POST http://52.58.199.76:8080/api/vikings
+POST http://52.58.199.76:8080/api/controller
 
-PUT http://52.58.199.76:8080/api/vikings
+PUT http://52.58.199.76:8080/api/controller
 
 # Tips and tricks
 
