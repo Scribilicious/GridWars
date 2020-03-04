@@ -48,13 +48,8 @@ function hunter() {
     // get information about the next target and range
     const nextStep = bot.moveInRange(victim);
 
-    // handle invalid target, might be caused by async/lag
-    if (nextStep.x === 0 && nextStep.y === 0) {
-        return bot.stop();
-    }
-
     // distance to target is <= 1, so we are in range to attack
-    if (nextStep.inRange) {
+    if (nextStep.inRange && (nextStep.x !== 0 || nextStep.y !== 0)) {
         return bot.attack(nextStep);
     }
 
@@ -62,7 +57,20 @@ function hunter() {
     if (bot.health < 2) {
         return bot.heal();
     }
+
+    // Some randomness
+    if (this.lastPosition && this.lastPosition === position) {
+        nextStep.x = randomInt(-1, 1);
+        nextStep.y = randomInt(-1, 1);
+        console.log('Bot is stuck... Doing a random move!', nextStep);
+    }
+
+    this.lastPosition = position;
     return bot.move(nextStep);
+}
+
+function randomInt(low, high) {
+    return Math.floor(Math.random() * (high - low + 1) + low)
 }
 
 
