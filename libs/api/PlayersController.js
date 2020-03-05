@@ -149,9 +149,7 @@ const handlePlayerAttack = function(player) {
         const otherPlayer = findPlayerByPosition(attackPosition);
 
         if (otherPlayer) {
-            otherPlayer.health -= player.level;
-            //otherPlayer.health -= Math.ceil(player.level / 2); // TODO find good damage value
-            //otherPlayer.health -= 1;
+            otherPlayer.health -= getRandomInt(0, player.level + 1);
 
             if (otherPlayer.isDead()) {
                 player.kills += 1;

@@ -1,6 +1,6 @@
 // Some settings
-const victims = 40;
-const hunters = 10;
+const victims = 1000;
+const hunters = 400;
 
 const Api = require('./Api');
 const Bot = require('./Bot');
@@ -25,20 +25,21 @@ function hunter() {
     const bot = this;
     const { position } = bot;
 
+    if (!position) {
+        return;
+    }
+
     const victims = players
         .map(player => {
-            if (!position) {
-                return;
-            }
             const distance = Math.abs(position.x - player.position.x) + Math.abs(position.y - player.position.y);
             return { distance, ...player };
         })
         .sort((a, b) => a.distance - b.distance);
 
-    const victim = victims[0] && victims[0].name !== bot.name ? victims[0] : victims[1];
+    const victim = victims.find(v => bot.name !== v.name);
 
     if (!victim) {
-        return;
+        return bot.move({x: randomInt(-1, 1),  y: randomInt(-1, 1)});
     }
 
     // while no other Player on the Board, heal and keep the re-evaluation cycle alive
@@ -60,7 +61,7 @@ function hunter() {
     }
 
     // Some randomness
-    if (this.lastPosition && this.lastPosition == position) {
+    if (this.lastPosition && this.lastPosition.x === position.x && this.lastPosition.y === position.y ) {
         nextStep.x = randomInt(-1, 1);
         nextStep.y = randomInt(-1, 1);
         Helper.output('Bot is stuck... Doing a random move!', nextStep);
@@ -125,4 +126,4 @@ function start() {
 }
 
 
-module.exports = start;
+start();

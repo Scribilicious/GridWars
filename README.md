@@ -50,6 +50,10 @@ Socket io events are emitted for new Vikings and for game ticks.
 
 # Server
 
+Install modules : npm Install
+Build react : npm run-script build
+Start server : npm run-script start
+
 Server IP: 52.58.199.76 PORT 8080
 
 GET http://52.58.199.76:8080/api/controller
