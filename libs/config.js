@@ -5,6 +5,7 @@ const Config = {
     OBSTACLES: 40,
     OBSTACLES_TYPES: 3,
     OBSTACLES_DAMAGE: 10,
+    DEBUG: true
 };
 
 module.exports = Config;

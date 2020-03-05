@@ -42,11 +42,11 @@ const Obstacles = () => {
 };
 
 const Obstacle = React.memo(props => {
-    const { x, y, type, damage } = props;
+    const { x, y, type, damage, id } = props;
     const SvgImage = getObstacle(type, damage);
 
     return (
-        <div className="obstacles" key={'obst'+ x + y + type} style={calculateStyles(x, y)}>
+        <div className="obstacles" key={'obst_'+ id.toString} style={calculateStyles(x, y)}>
             <SvgImage/>
         </div>
     );

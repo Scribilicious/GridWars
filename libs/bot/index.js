@@ -2,11 +2,12 @@
 const victims = 40;
 const hunters = 10;
 
-
 const Api = require('./Api');
 const Bot = require('./Bot');
 const Config = require('../config');
 const WebSocket = require('ws');
+
+const Helper = new require('../classes/Helper.js');
 
 const { SPEED } = Config;
 
@@ -59,13 +60,14 @@ function hunter() {
     }
 
     // Some randomness
-    if (this.lastPosition && this.lastPosition === position) {
+    if (this.lastPosition && this.lastPosition == position) {
         nextStep.x = randomInt(-1, 1);
         nextStep.y = randomInt(-1, 1);
-        console.log('Bot is stuck... Doing a random move!', nextStep);
+        Helper.output('Bot is stuck... Doing a random move!', nextStep);
     }
 
     this.lastPosition = position;
+
     return bot.move(nextStep);
 }
 
@@ -92,7 +94,7 @@ function populate(max, type) {
             bot.connect();
             Bots.push(bot);
 
-            console.log('Bot created');
+            Helper.output('Bot created');
 
             if (i < max) {
                 createBot();

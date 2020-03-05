@@ -40,6 +40,7 @@ class Obstacles {
         }
 
         this.obstacles.push({
+            id : this.obstacles.length + 1,
             x,
             y,
             damage,
@@ -56,7 +57,7 @@ class Obstacles {
 
         for (let i = 0; i < size; i++) {
             if (this.obstacles[i].x === position.x && this.obstacles[i].y === position.y) {
-                if (damage === null) {
+                if (!damage) {
                     return true;
                 }
                 if (this.obstacles[i].damage === damage) {

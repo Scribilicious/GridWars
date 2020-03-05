@@ -9,7 +9,8 @@ const Player = require('./Player');
 const Action = require('./Action');
 const Config = require('../config');
 
-const obstacles = new require('../classes/Obstacles.js')(Config);
+const Obstacles = new require('../classes/Obstacles.js')(Config);
+const Helper = new require('../classes/Helper.js');
 
 const mapSizeX = Config.MAP_SIZE_X;
 const mapSizeY = Config.MAP_SIZE_Y;
@@ -25,7 +26,7 @@ const broadcastResult = players => {
             client.send(
                 JSON.stringify({
                     players,
-                    map: { width : mapSizeX, height : mapSizeY, speed, obstacles : obstacles.map },
+                    map: { width : mapSizeX, height : mapSizeY, speed, obstacles : Obstacles.map },
                 })
             );
         }
@@ -67,7 +68,7 @@ const getRandomInt = function(min, max) {
 
 const isPositionAvailable = function(position) {
     return (
-        !obstacles.checkPosition(position, 0) && !findPlayerByPosition(position)
+        !Obstacles.checkPosition(position, 0) && !findPlayerByPosition(position)
     );
 };
 
@@ -133,11 +134,11 @@ router.put('/', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-    console.log('getting players');
+    Helper.output('getting players');
 
     res.json({
         players: parsePlayers(),
-        map: { width : mapSizeX, height : mapSizeY, speed, obstacles : obstacles.map },
+        map: { width : mapSizeX, height : mapSizeY, speed, obstacles : Obstacles.map },
     });
 });
 
@@ -157,7 +158,7 @@ const handlePlayerAttack = function(player) {
             }
         }
     } catch (e) {
-        console.log(e);
+        Helper.output(e);
     }
 };
 
@@ -165,7 +166,7 @@ const handlePlayerDestroy = function(player) {
     try {
         player.health = 0;
     } catch (e) {
-        console.log(e);
+        Helper.output(e);
     }
 }
 
@@ -173,19 +174,19 @@ const handlePlayerMove = function(player) {
     try {
         const movePosition = player.getActionPosition();
 
-        if (obstacles.checkPositionDamage(movePosition)) {
+        if (Obstacles.checkPositionDamage(movePosition)) {
             player.health--;
-            console.log(`${player.name} is taking damage of obstacle`);
+            Helper.output(`${player.name} is taking damage of obstacle`);
 
         } else if (!isPositionAvailable(movePosition)) {
             //throw new Error(`${player.id} something is in my way`);
-            console.log(`${player.name} something is in my way`);
+            Helper.output(`${player.name} something is in my way`);
             return;
         }
 
         player.position = movePosition;
     } catch (e) {
-        console.log(e);
+        Helper.output(e);
     }
 };
 
@@ -194,7 +195,7 @@ const handlePlayerHeal = function(player) {
         //player.increaseHitPoints(player.level);
         player.increaseHitPoints(1);
     } catch (e) {
-        console.log(e);
+        Helper.output(e);
     }
 };
 
@@ -225,7 +226,7 @@ const levelUpPlayers = function() {
 let gameRound = 1;
 
 const gameUpdate = function() {
-    console.log(`Game round ${gameRound++}`);
+    Helper.output(`Game round ${gameRound++}`);
 
     if (playersList.length) {
         handlePlayerActions(Action.ORDER_ATTACK);
@@ -282,7 +283,7 @@ const handlePlayerActions = function(action) {
         return;
     }
 
-    console.log('Doing the action : ', action);
+    Helper.output('Doing the action : ' + action);
 
     players.forEach(function(player) {
         event(player);
