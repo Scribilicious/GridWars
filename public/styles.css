@@ -2,7 +2,9 @@ body {
     font-size: 16px;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background: #f5f5f5;
+    margin: 5px;
 }
+
 h1 {
     font-size: 1.8em;
 }
@@ -16,44 +18,72 @@ h1 {
     margin-bottom: 10px;
 }
 
+
+.game-board {
+    position: relative;
+    font-size: 20px;
+    width: 100%;
+    background: #fff4cc;
+}
+
 .row {
     font-size: 10px;
     display: flex;
-    border-top: 1px solid #dadada;
+    /*border-top: 1px solid #dadada;*/
+    box-sizing: border-box;
 }
 
 .col {
     flex: 1;
-    height: 44px;
-    border-right: 1px solid #dadada;
+    /*border-right: 1px solid #dadada;*/
     background: #fff4cc;
+    box-sizing: border-box;
+}
+
+.col:before {
+    content:     "";
+    display:     block;
+    padding-top: 100%; /* initial ratio of 1:1*/
+}
+
+.obstacles {
+    width: 1em;
+    height: 1em;
+}
+
+.obstacles svg {
+    width: 100%;
+    height: 100%;
 }
 
 .player {
-    font-size: 9px;
     position: absolute;
-    top: 0;
-    left: 0;
+    width: 1em;
+    height: 1em;
     transition: all 2s ease 0s;
+    text-align: center;
 }
 
-.player-name {
+.player .player-name {
     display: inline-block;
     width: 100%;
     text-align: center;
-    position: relative;
-    top: -12px;
+    position: absolute;
+    font-size: 0.2em;
+    top: 4.8em;
+    width: 8em;
+    left: -1.2em;
 }
 
-.player img {
-    width: 70%;
-    display: block;
-    margin: 0 auto;
+.player .player-avatar {
+    display: inline-block;
     transition: all 2s ease 0s;
 }
 
-.game-board {
-    position: relative;
+.player .player-avatar svg {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -74,11 +104,6 @@ h1 {
 
 .animation.delay2 {
     animation-delay: .4s;
-}
-
-.obstacles svg {
-    width: 100%;
-    height: 100%;
 }
 
 @keyframes stretch {

@@ -18,6 +18,7 @@ const getAvatar = level => {
 
     return Level3Avatar;
 };
+
 const calculateSizeFatctor = level =>
     (BASEHEIGHT + (level - 1) * SIZE_INCREMENTS) / 100;
 
@@ -26,19 +27,19 @@ const calculateOpacity = (level, health) => {
     return health / maxHealthForLevel;
 };
 
-const FIELD_HEIGHT = 45;
 const calculateStyles = player => {
     const { x, y, level, health } = player;
     const { width } = getMapData();
-    const ww = window.innerWidth;
-    const fieldWidth = ww / width - 1;
+    const fieldSize = (window.innerWidth - 10) / width;
     const sizeFactor = calculateSizeFatctor(level);
+
     return {
-        top: Math.round(y * FIELD_HEIGHT),
-        left: Math.round(x * fieldWidth),
-        width: fieldWidth * sizeFactor,
-        height: FIELD_HEIGHT * sizeFactor,
+        top: y + 'em',
+        left: x + 'em',
+        width: 1 * sizeFactor + 'em',
+        height: 1 * sizeFactor + 'em',
         opacity: calculateOpacity(level, health),
+        position: 'absolute',
     };
 };
 
@@ -49,8 +50,10 @@ const Player = React.memo(props => {
 
     // todo: set only changed properties as styles, set on ref
     return (
-        <div className="player" style={{ top, left, width, height, opacity }}>
-            <Avatar color={color} animationDelay={animationDelay} />
+        <div className="player" style={{ top, left }}>
+            <div className="player-avatar" style={{ width, height, opacity }}>
+                <Avatar color={color} animationDelay={animationDelay} />
+            </div>
             <span className="player-name">
                 {name} | {level}
             </span>

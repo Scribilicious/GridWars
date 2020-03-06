@@ -1,25 +1,20 @@
 import React from 'react';
-import { getMapData } from './config';
+import { getMapData, getBoardData } from './config';
 
 import Damage1 from './Obstacles/Damage1';
 import Damage2 from './Obstacles/Damage2';
 import Damage3 from './Obstacles/Damage3';
 import Obstacle1 from './Obstacles/Obstacle1';
 
-const FIELD_HEIGHT = 45;
-
 const calculateStyles = (x, y) => {
-    const { width } = getMapData();
-    const ww = window.innerWidth;
-    const fieldWidth = ww / width - 1;
-
+    const boardData = getBoardData();
     return {
-        top: Math.round(y * FIELD_HEIGHT),
-        left: Math.round(x * fieldWidth),
-        width: fieldWidth,
-        height: FIELD_HEIGHT,
+        top: y + 'em',
+        left: x + 'em',
+        width: '1em',
+        height: '1em',
         position: 'absolute',
-    };
+    }
 };
 
 const getObstacle = (type, damage) => {
