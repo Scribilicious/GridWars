@@ -1,6 +1,6 @@
 // Some settings
-const victims = 60;
-const hunters = 20;
+const victims = 0;
+const hunters = 100;
 
 const Api = require('./Api');
 const Bot = require('./Bot');
@@ -87,9 +87,9 @@ function populate(max, type) {
             let bot = {};
 
             if (!type) {
-                bot = new Bot(`Woelfchen ${i}`, hunter);
+                bot = new Bot(`Woelfchen${i}`, hunter);
             } else {
-                bot = new Bot(`Opfer ${i}`, () => {});
+                bot = new Bot(`Opfer${i}`, () => {});
             }
 
             bot.connect();
