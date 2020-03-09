@@ -4,7 +4,7 @@ const Config = {
     SPEED: 1000,
     OBSTACLES: 100,
     OBSTACLES_TYPES: 3,
-    OBSTACLES_DAMAGE: 60,
+    OBSTACLES_DAMAGE: 20,
     DEBUG: true
 };
 
