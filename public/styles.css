@@ -116,3 +116,16 @@ h1 {
         transform: scaleY(1);
     }
 }
+
+.game-info {
+    position: absolute;
+    left: 429px;
+    top: -10px;
+    background: #666;
+    width: 175px;
+    padding: 15px;
+    color: #dfdfdf;
+    font-family: "Courier New";
+    font-size: 11px;
+
+}

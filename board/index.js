@@ -2,17 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import Player from './Player';
 import Obstacles from './Obstacles';
+import GameData from './GameData';
 import { getMapData, setMapData, getBoardData, setBoardData } from './config';
 
 let boardHeight = 1000;
 let fontSize = 10;
-
-const getTop3 = players => {
-    const copy = [...players];
-    copy.sort((p1, p2) => p2.kills - p1.kills).splice(3);
-
-    return copy;
-};
 
 const Game = () => {
     const [players, setPlayers] = useState([]);
@@ -22,7 +16,7 @@ const Game = () => {
     const canvasRef = useRef();
 
     useEffect(() => {
-        const webSocket = new WebSocket('ws://localhost:3001/');
+        const webSocket = new WebSocket('ws://'+ window.location.hostname +':3001/');
         webSocket.onmessage = event => {
             const { players, map } = JSON.parse(event.data);
             setMapData(map);
@@ -37,17 +31,12 @@ const Game = () => {
 
     return (
         <div className="game">
-            <div className="game-info">
-                <div>Top3 :</div>
-                <ol>
-                    {getTop3(players).map(player => (
-                        <li>
-                            {player.name} Kills: {player.kills} Level:{player.level}
-                        </li>
-                    ))}
-                </ol>
-            </div>
-            <div className="game-board" ref={canvasRef} style={{ height: boardHeight, fontSize }}>
+            <GameData players={players} />
+            <div
+                className="game-board"
+                ref={canvasRef}
+                style={{ height: boardHeight, fontSize }}
+            >
                 {boardHeight && <Obstacles />}
                 {players.map(player => {
                     const {
