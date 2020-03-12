@@ -1,7 +1,7 @@
 import React from 'react';
 
 const getTop3 = players => {
-    const arr = [...players]
+    const arr = players
         .map(player => ({
             ...player,
             killsTotal:
