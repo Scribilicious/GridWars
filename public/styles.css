@@ -18,13 +18,19 @@ h1 {
     margin-bottom: 10px;
 }
 
+.game {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
 
 .game-board {
     position: relative;
     font-size: 20px;
-    width: 100%;
+    width: 80%;
     background: #fff4cc;
     overflow: hidden;
+    float:left;
 }
 
 .row {
@@ -119,13 +125,40 @@ h1 {
 
 .game-info {
     position: absolute;
-    left: 429px;
-    top: -10px;
-    background: #666;
-    width: 175px;
-    padding: 15px;
-    color: #dfdfdf;
-    font-family: "Courier New";
-    font-size: 11px;
+    font-size: 20px;
+    width: 20%;
+    background: #c9f4ff;
+    overflow: hidden;
+    right: 0;
+    height: 100%;
+    border-left: #335159 0.05em solid;
+    box-sizing: border-box;
+}
 
+.game-info h2 {
+    font-size: 1em;
+    margin: 0 0 0.5em;
+    padding: 0.5em 0.5em;
+    border-bottom: #335159 0.1em dashed;
+}
+
+.game-info table {
+    border-spacing: 0.2em;
+}
+
+.game-info table thead th {
+    width: 20%;
+    font-size: 0.6em;
+}
+
+.game-info table td {
+    font-size: 0.6em;
+    text-align: right;
+    border-left: #75bcce 0.1em dashed;
+}
+
+.game-info table td:first-child {
+    width: 100%;
+    text-align: left;
+    border-left: none;
 }

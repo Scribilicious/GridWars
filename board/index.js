@@ -31,7 +31,6 @@ const Game = () => {
 
     return (
         <div className="game">
-            <GameData players={players} />
             <div
                 className="game-board"
                 ref={canvasRef}
@@ -61,6 +60,7 @@ const Game = () => {
                     );
                 })}
             </div>
+            <GameData players={players} fontSize={fontSize} />
         </div>
     );
 };

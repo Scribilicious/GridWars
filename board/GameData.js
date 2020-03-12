@@ -15,16 +15,20 @@ const getTop3 = players => {
     return arr;
 };
 
-const GameData = ({ players }) => {
+const GameData = ({ players, fontSize }) => {
     const top3 = getTop3(players);
     return (
-        <div className="game-info">
+        <div className="game-info" style={{ fontSize }}>
+            <h2>Top Three</h2>
             <table className="top-three">
-                <tr>
-                    <td></td>
-                    <td>Kills</td>
-                    <td>Level</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Kills</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {top3.length &&
                     top3.map(player => (
                         <tr>
@@ -32,7 +36,9 @@ const GameData = ({ players }) => {
                             <td>{player.killsTotal}</td>
                             <td>{player.level}</td>
                         </tr>
-                    ))}
+                    ))
+                }
+                </tbody>
             </table>
         </div>
     );
