@@ -1,4 +1,4 @@
-# Valkyre
+# GridWars
 
 Program the mighty Viking warriors of Valhalla.
 
