@@ -16,9 +16,7 @@
         "react": "^16.13.0",
         "react-dom": "^16.13.0",
         "shortid": "^2.2.14",
-        "ws": "^7.2.1"
-    },
-    "devDependencies": {
+        "ws": "^7.2.1",
         "@babel/core": "^7.8.6",
         "@babel/preset-env": "^7.8.6",
         "@babel/preset-react": "^7.0.0",
