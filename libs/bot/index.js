@@ -1,6 +1,6 @@
 // Some settings
-const victims = 60;
-const hunters = 40;
+const victims = 20;
+const hunters = 3;
 
 const Api = require('./Api');
 const Bot = require('./Bot');
