@@ -57,11 +57,9 @@ Beware that there are obstacles, which don't block but infer 1 HP damage (cactus
 
 # Server
 
-Install modules : npm Install
-Build react : npm run-script build
-Start server : npm run-script start
+Map: http://gollum.check24tech.de:3000/
 
-Server: http://gollum.check24tech.de:3000/
+Api:
 
 GET http://gollum.check24tech.de:3000/api/controller
 
