@@ -16,7 +16,7 @@ const Game = () => {
     const canvasRef = useRef();
 
     useEffect(() => {
-        const webSocket = new WebSocket('ws://'+ window.location.hostname +':3001/');
+        const webSocket = new WebSocket(window.gw_wss_url);
         webSocket.onmessage = event => {
             const { players, map } = JSON.parse(event.data);
             setMapData(map);

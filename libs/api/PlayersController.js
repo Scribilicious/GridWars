@@ -18,7 +18,9 @@ const speed = Config.SPEED;
 
 const playersList = [];
 
-const wss = new WebSocket.Server({ port: 3001 });
+const wssHostname = process.env.WSS_HOSTNAME || '127.0.0.1';
+const wssPort = process.env.WSS_PORT || 3001;
+const wss = new WebSocket.Server({ host: wssHostname, port: wssPort });
 
 const broadcastResult = players => {
     wss.clients.forEach(function each(client) {
