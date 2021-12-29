@@ -4,12 +4,12 @@ const getTop3 = players => {
     const arr = players
         .map(player => ({
             ...player,
-            killsTotal:
+            score:
                 Math.pow(2, player.level - 1) +
                 player.kills +
                 (player.level - 1) * 1,
         }))
-        .sort((p1, p2) => p2.killsTotal - p1.killsTotal);
+        .sort((p1, p2) => p2.score - p1.score);
 
     arr.splice(3);
     return arr;
@@ -26,6 +26,7 @@ const GameData = ({ players, fontSize }) => {
                         <th>Player</th>
                         <th>Kills</th>
                         <th>Level</th>
+                        <th>Score</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,8 +34,9 @@ const GameData = ({ players, fontSize }) => {
                     top3.map(player => (
                         <tr>
                             <td>{player.name}</td>
-                            <td>{player.killsTotal}</td>
+                            <td>{player.kills}</td>
                             <td>{player.level}</td>
+                            <td>{player.score}</td>
                         </tr>
                     ))
                 }
