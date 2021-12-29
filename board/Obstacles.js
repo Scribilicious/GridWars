@@ -33,7 +33,7 @@ const getObstacle = (type, damage) => {
 
 const Obstacles = () => {
     const { obstacles } = getMapData();
-    return obstacles.map(obstacle => <Obstacle {...obstacle} />);
+    return obstacles.map(obstacle => <Obstacle key={'obst_'+ obstacle.id.toString} {...obstacle} />);
 };
 
 const Obstacle = React.memo(props => {
