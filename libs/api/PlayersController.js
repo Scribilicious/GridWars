@@ -130,6 +130,23 @@ router.put('/', function(req, res) {
         return;
     }
 
+    if (req.body.action.position) {
+
+        if (!Number.isInteger(req.body.action.position.x)) {
+            res.json({
+                error: 'action.position.x must be an integer',
+            });
+            return;
+        }
+
+        if (!Number.isInteger(req.body.action.position.y)) {
+            res.json({
+                error: 'action.position.y must be an integer',
+            });
+            return;
+        }
+    }
+
     player.action = req.body.action;
 
     res.json(player.parse());
