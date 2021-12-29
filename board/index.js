@@ -36,7 +36,7 @@ const Game = () => {
                 ref={canvasRef}
                 style={{ height: boardHeight, fontSize }}
             >
-                {boardHeight && <Obstacles />}
+                {boardHeight && <Obstacles key={'obstacles'} />}
                 {players.map(player => {
                     const {
                         name,
