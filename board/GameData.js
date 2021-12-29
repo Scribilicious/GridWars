@@ -19,7 +19,7 @@ const GameData = ({ players, fontSize }) => {
     const topPlayers = getTopPlayers(players, 10);
     return (
         <div className="game-info" style={{ fontSize }}>
-            <h2>Top Three</h2>
+            <h2>Top Ten</h2>
             <table className="top-players">
                 <thead>
                     <tr>
