@@ -1,6 +1,6 @@
 import React from 'react';
 
-const getTop3 = players => {
+const getTopPlayers = (players, count) => {
     const arr = players
         .map(player => ({
             ...player,
@@ -11,16 +11,16 @@ const getTop3 = players => {
         }))
         .sort((p1, p2) => p2.score - p1.score);
 
-    arr.splice(3);
+    arr.splice(count);
     return arr;
 };
 
 const GameData = ({ players, fontSize }) => {
-    const top3 = getTop3(players);
+    const topPlayers = getTopPlayers(players, 10);
     return (
         <div className="game-info" style={{ fontSize }}>
             <h2>Top Three</h2>
-            <table className="top-three">
+            <table className="top-players">
                 <thead>
                     <tr>
                         <th>Player</th>
@@ -30,8 +30,8 @@ const GameData = ({ players, fontSize }) => {
                     </tr>
                 </thead>
                 <tbody>
-                {top3.length &&
-                    top3.map(player => (
+                {topPlayers.length &&
+                    topPlayers.map(player => (
                         <tr>
                             <td>{player.name}</td>
                             <td>{player.kills}</td>
