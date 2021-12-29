@@ -32,7 +32,7 @@ const GameData = ({ players, fontSize }) => {
                 <tbody>
                 {topPlayers.length &&
                     topPlayers.map(player => (
-                        <tr>
+                        <tr key={`playerList${player.name}`}>
                             <td>{player.name}</td>
                             <td>{player.kills}</td>
                             <td>{player.level}</td>
