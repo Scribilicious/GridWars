@@ -18,7 +18,9 @@ const speed = Config.SPEED;
 
 const playersList = [];
 
-const wss = new WebSocket.Server({ port: 3001 });
+const wssHostname = process.env.WSS_HOSTNAME || '127.0.0.1';
+const wssPort = process.env.WSS_PORT || 3001;
+const wss = new WebSocket.Server({ host: wssHostname, port: wssPort });
 
 const broadcastResult = players => {
     wss.clients.forEach(function each(client) {
@@ -126,6 +128,23 @@ router.put('/', function(req, res) {
     if (!player) {
         res.status(400).json({ error: 'deadPlayer' });
         return;
+    }
+
+    if (req.body.action.position) {
+
+        if (!Number.isInteger(req.body.action.position.x)) {
+            res.json({
+                error: 'action.position.x must be an integer',
+            });
+            return;
+        }
+
+        if (!Number.isInteger(req.body.action.position.y)) {
+            res.json({
+                error: 'action.position.y must be an integer',
+            });
+            return;
+        }
     }
 
     player.action = req.body.action;
